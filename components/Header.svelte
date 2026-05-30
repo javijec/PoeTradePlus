@@ -2,6 +2,7 @@
   import { languageStore, translate } from "../lib/services/i18n";
   export let logoUrl: string;
   export let isMinimized: boolean = false;
+  export let isDevBuild: boolean = false;
   export let onToggleMinimize: () => void = () => {};
   export let sidebarSide: 'left' | 'right' = 'left';
 </script>
@@ -10,7 +11,12 @@
   <div class="brand">
     <img class="logo" src={logoUrl} alt="Poe Trade Plus" />
     <div class="brand-copy">
-      <h1>Poe Trade Plus</h1>
+      <div class="title-row">
+        <h1>Poe Trade Plus</h1>
+        {#if isDevBuild}
+          <span class="dev-badge" title="Development build">DEV</span>
+        {/if}
+      </div>
       <div class="subtitle">{translate($languageStore, "header.subtitle")}</div>
     </div>
   </div>
@@ -66,6 +72,31 @@
 
   .brand-copy {
     min-width: 0;
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .dev-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba($red, 0.16);
+    border: 1px solid rgba($red, 0.36);
+    color: rgba($red, 0.92);
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    flex: 0 0 auto;
   }
 
   .logo {

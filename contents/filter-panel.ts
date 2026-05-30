@@ -1,22 +1,8 @@
 export const initFilterPanel = () => {
-  console.log("[Krox-MainWorld] Script injected and running!")
-
-  window.addEventListener("message", (event) => {
-    if (event.source !== window) return
-
-    const data = event.data
-    if (!data || data.source !== "poe-trade-plus-debug") return
-
-    console.log(`[Poe Trade Plus->Page] ${data.label}`, data.payload)
-  })
-
-  console.log("[Krox-MainWorld] Page debug relay ready")
-
   if ((window as any).__KROX_STARTED__) {
     return
   }
 
-  console.log("[Krox-MainWorld] Starting Finer Filters initialization...")
   ;(window as any).__KROX_STARTED__ = true
 
   // ---------- helpers ----------
@@ -109,9 +95,9 @@ export const initFilterPanel = () => {
   // ---------- overlay/button templates ----------
   const filteredOverlay = () => h(`<div class="finer-filtered-overlay"></div>`);
   const buttonsTemplate = () => h(`
-    <span class="lc l" id="btns-finer">
-      <span class="btn-finer add" data-action="add-filter"  title="add this mod to your search filters">+</span>
+    <span id="btns-finer">
       <span class="btn-finer rm"  data-action="rmv-filter"  title="remove this mod from your search results">-</span>
+      <span class="btn-finer add" data-action="add-filter"  title="add this mod to your search filters">+</span>
     </span>`);
 
   // ---------- map ----------
@@ -167,6 +153,73 @@ export const initFilterPanel = () => {
     return panel?.$children?.filter?.((e: any) => finder(e,"stat-filter-group") && (_type ? e.group.type === _type : true)) || [];
   };
 
+  const modSelectors = '.item-popup__content .item-mod, .itemBoxContent > .content > div, .content [class*="Mod"], .item-stats .stat-line';
+
+  const getRowId = (mod: HTMLElement) => {
+    const row = mod.closest('[data-id]') as HTMLElement | null;
+    return row?.getAttribute('data-id') || row?.id || mod.dataset.rowid || '';
+  };
+
+  const attachButtons = (mod: HTMLElement) => {
+    const btns = buttonsTemplate();
+    if (!btns) return;
+
+    const staleWrappers = mod.querySelectorAll(':scope > .finer-mod-content, :scope > .finer-mod-actions');
+    staleWrappers.forEach((wrapper) => {
+      while (wrapper.firstChild) {
+        mod.insertBefore(wrapper.firstChild, wrapper);
+      }
+      wrapper.remove();
+    });
+
+    if (mod.querySelector('#btns-finer')) return;
+
+    mod.style.position = "relative";
+    mod.style.overflow = "visible";
+    mod.style.display = "";
+    mod.style.width = "";
+    mod.style.boxSizing = "";
+    mod.style.textAlign = "";
+
+    const rowId = mod.dataset.rowid || getRowId(mod);
+    const statHash = mod.dataset.hash || '';
+    if (rowId) btns.setAttribute('data-rowid', rowId);
+    if (statHash) btns.setAttribute('data-hash', statHash);
+
+    mod.appendChild(btns);
+  };
+
+  const decorateMod = (mod: HTMLElement, ISGs: any[]) => {
+    const sEl = mod.querySelector('.lc.s') as HTMLElement;
+    const fieldVal = sEl?.dataset?.field || sEl?.getAttribute('data-field') || '';
+    const modHash = fieldVal.startsWith('stat.') ? fieldVal.slice(5) : fieldVal;
+    if (!modHash) return;
+
+    mod.dataset.hash = modHash;
+    const rowId = getRowId(mod);
+    if (rowId) mod.dataset.rowid = rowId;
+
+    const isInFilters = ISGs.some((isg: any) => isg.filters && isg.filters.some((f: any) => f.id === modHash));
+    if (isInFilters) {
+      mod.classList.add('finer-filtered');
+      if (!mod.querySelector('.finer-filtered-overlay')) {
+        const overlay = filteredOverlay();
+        if (overlay) mod.appendChild(overlay);
+      }
+    } else {
+      mod.classList.add('finer-filterable');
+    }
+
+    attachButtons(mod);
+  };
+
+  const scanVisibleMods = (root: ParentNode = document) => {
+    const ISGs = ItemSearchGroupsVueItems();
+    Array.from(root.querySelectorAll(modSelectors) as NodeListOf<HTMLElement>).forEach((mod) => {
+      decorateMod(mod, ISGs);
+    });
+  };
+
   // step 1: hover a result row -> check filters
   onEnter('.resultset > .row, .resultset > .result-item, .search-results .result-item, .search-results .row', (e: any, row: HTMLElement) => {
     if (row.classList.contains('finer-processed')) return;
@@ -176,50 +229,30 @@ export const initFilterPanel = () => {
       console.warn("[Krox-MainWorld] Vue 'window.app' not found. Is this PoE 2 Trade?");
     }
 
-    const rowid = row.getAttribute('data-id') || row.id;
-    // Broaden the modifier query selector to support new classes
-    const mods = Array.from(row.querySelectorAll('.content [class*="Mod"], .item-stats .stat-line')) as HTMLElement[];
-    const ISGs = ItemSearchGroupsVueItems();
+      const mods = Array.from(row.querySelectorAll(modSelectors)) as HTMLElement[];
+      const ISGs = ItemSearchGroupsVueItems();
 
-    console.debug(`[Krox-MainWorld] Hovered Row -> Found ${mods.length} modifier elements`);
+      mods.forEach((mod) => decorateMod(mod, ISGs));
 
-    mods.forEach((mod) => {
-      const sEl = mod.querySelector('.lc.s') as HTMLElement;
-      let fieldVal = sEl?.dataset?.field || sEl?.getAttribute('data-field') || '';
-      
-      const modHash = fieldVal.startsWith('stat.') ? fieldVal.slice(5) : fieldVal; 
-      if (!modHash) return;
-      
-      mod.dataset.hash = modHash;
-      if (rowid) mod.dataset.rowid = rowid;
-
-      const isInFilters = ISGs.some((isg: any) => isg.filters && isg.filters.some((f: any) => f.id === modHash));
-      if (isInFilters) {
-        mod.classList.add('finer-filtered');
-        const overlay = filteredOverlay();
-        if (overlay) mod.appendChild(overlay);
-      } else {
-        mod.classList.add('finer-filterable');
-      }
+      row.classList.add('finer-processed');
     });
 
-    row.classList.add('finer-processed');
+  // step 2: make buttons visible on item mods
+  scanVisibleMods();
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      mutation.addedNodes.forEach((node) => {
+        if (!(node instanceof HTMLElement)) return;
+        if (node.matches?.(modSelectors)) {
+          decorateMod(node, ItemSearchGroupsVueItems());
+        }
+        scanVisibleMods(node);
+      });
+    }
   });
+  observer.observe(document.body, { childList: true, subtree: true });
 
-  // step 2: hover a mod -> add/remove finer filter buttons
-  onEnter('.itemBoxContent > .content > div, .content [class*="Mod"], .item-stats .stat-line', (e: any, el: HTMLElement) => {
-    if (!el.classList.contains('finer-filterable') && !el.classList.contains('finer-filtered')) return;
-    if (el.querySelector('#btns-finer')) return;
-    console.debug("[Krox-MainWorld] Attaching hover buttons to modifier:", el);
-    const btns = buttonsTemplate();
-    if (btns) el.appendChild(btns);
-  });
-  onLeave('.itemBoxContent > .content > div, .content [class*="Mod"], .item-stats .stat-line', (e: any, el: HTMLElement) => {
-    const btns = el.querySelector('#btns-finer');
-    if (btns) btns.remove();
-  });
-
-  // step 3: click ± inside the hover buttons
+  // step 3: click ± inside the buttons
   on('click', '[data-action="add-filter"]', (e: any, el: HTMLElement) => {
     addOrRemoveFilter(e, true, el);
   });
@@ -321,20 +354,24 @@ export const initFilterPanel = () => {
 
 
   function addOrRemoveFilter(e: any, isAnd: boolean, btn: HTMLElement) {
+    e.preventDefault();
+    e.stopPropagation();
     const filterType = isAnd ? 'and' : 'not';
-    const modEl = btn.closest('div'); 
-    const rowId = modEl?.dataset?.rowid;
+    const btns = btn.closest('#btns-finer') as HTMLElement | null;
+    const modEl = btn.closest('.item-mod, .itemBoxContent > .content > div, .content [class*="Mod"], .item-stats .stat-line') as HTMLElement | null;
+    const rowId = btns?.dataset?.rowid || modEl?.dataset?.rowid;
     if (!rowId) return;
     
     const VueElem = findVueResultItem(rowId) || {};
-    const statHash = modEl?.dataset?.hash;
+    const statHash = btns?.dataset?.hash || modEl?.dataset?.hash;
     const newFilter = createFilter(statHash || "");
     const group = ItemSearchGroupsVueItems(filterType)?.find((g: any) => g.index !== 0);
+    const globalStore = getGlobalApp()?.$store;
 
     if (group && group.selectFilter) {
         group.selectFilter(newFilter);
-    } else if (VueElem.$store?.commit) {
-        VueElem.$store.commit('pushStatGroup', { type: filterType, filters: [newFilter] });
+    } else if (globalStore?.commit) {
+        globalStore.commit('pushStatGroup', { type: filterType, filters: [newFilter] });
     }
 
     if (getGlobalApp()?.save) {

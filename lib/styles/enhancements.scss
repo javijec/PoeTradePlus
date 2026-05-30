@@ -142,25 +142,64 @@ body.bt-has-kroxitrade-sidebar.bt-sidebar-minimized {
   margin-bottom: 2px;
 }
 
-/* Finer Filters Extracted Styles (Adapted to Premium Theme) */
 .btn-finer {
-  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
   color: $white;
-  border: 1px solid rgba($gold, 0.4);
+  border: 1px solid rgba($black, 0.85);
+  border-radius: 2px;
   cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+  box-shadow: inset 0 1px 0 rgba($white, 0.08);
+  user-select: none;
 }
 
 .btn-finer.add {
-  background: rgba(40, 167, 69, 0.3);
+  background: #185827;
 }
 
 .btn-finer.rm {
-  background: rgba(220, 53, 69, 0.3);
+  background: #721f27;
+}
+
+.item-popup__content .item-mod {
+  position: relative;
+  overflow: visible;
 }
 
 #btns-finer {
-  left: auto;
-  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  position: absolute !important;
+  top: 50% !important;
+  right: 0 !important;
+  left: auto !important;
+  transform: translate(calc(100% + 4px), -50%) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  z-index: 2147483647 !important;
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity 0.12s ease, visibility 0.12s ease;
+}
+
+#btns-finer .btn-finer {
+  border-radius: 2px !important;
+}
+
+.item-popup__content .item-mod:hover #btns-finer,
+#btns-finer:hover {
+  opacity: 1;
 }
 
 .finer-filterable:not(.finer-filtered):hover {
@@ -172,13 +211,14 @@ body.bt-has-kroxitrade-sidebar.bt-sidebar-minimized {
 }
 
 .finer-filtered-overlay {
-  z-index: -1;
+  z-index: 1;
   position: absolute;
   inset: 0;
   background: rgba(40, 167, 69, 0.10);
   border: none;
   outline: none;
   box-shadow: none;
+  pointer-events: none;
 }
 
 #finer-search-global {

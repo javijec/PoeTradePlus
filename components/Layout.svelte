@@ -57,6 +57,7 @@
   let appVersion = hasValidExtensionContext()
     ? chrome.runtime.getManifest().version
     : "dev";
+  let isDevBuild = import.meta.env.DEV;
   let showVersionNotice = false;
 
   const MIN_SIDEBAR_WIDTH = 300;
@@ -200,6 +201,7 @@
       currentTradeVersion = location.version;
     });
     welcomeLanguage = $settings.language;
+    isDevBuild = import.meta.env.DEV;
     appVersion = hasValidExtensionContext()
       ? chrome.runtime.getManifest().version
       : "dev";
@@ -357,7 +359,13 @@
     ></button>
   {/if}
 
-  <Header {logoUrl} {isMinimized} onToggleMinimize={toggleMinimize} sidebarSide={$settings.sidebarSide} />
+  <Header
+    {logoUrl}
+    {isMinimized}
+    {isDevBuild}
+    onToggleMinimize={toggleMinimize}
+    sidebarSide={$settings.sidebarSide}
+  />
 
   {#if showVersionNotice}
     <div class="version-notice" role="status" aria-live="polite">

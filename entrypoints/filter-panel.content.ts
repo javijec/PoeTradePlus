@@ -1,3 +1,5 @@
+import "~/lib/styles/enhancements.scss"
+
 import { initFilterPanel } from "~/contents/filter-panel"
 
 export default defineContentScript({

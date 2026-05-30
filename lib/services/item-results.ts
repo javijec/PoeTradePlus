@@ -59,7 +59,6 @@ export class ItemResultsService {
   };
 
   async initialize() {
-    console.log("[Poe Trade Plus] Initializing ItemResultsService...");
     emitPageDebug("item-results-initialize", {
       href: window.location.href
     });
@@ -84,7 +83,6 @@ export class ItemResultsService {
     
     try {
       await this.fetchRatios();
-      console.log("[Poe Trade Plus] Ratios loaded successfully:", this.chaosRatios ? "YES" : "NO");
     } catch (e) {
       console.error("[Poe Trade Plus] Failed to fetch ratios from poe.ninja:", e);
     }
@@ -134,7 +132,6 @@ export class ItemResultsService {
       return;
     }
 
-    console.log("[Poe Trade Plus] Current league detected:", league);
     emitPageDebug("poe-ninja-fetching-for-league", {
       league,
       type,
@@ -159,7 +156,6 @@ export class ItemResultsService {
 
     const priceInfo = this.extractPriceInfo(row);
     if (!priceInfo) {
-      console.debug("[Poe Trade Plus] Skipping pricing injection - Missing price info for row", row);
       return;
     }
 
@@ -173,11 +169,6 @@ export class ItemResultsService {
     if (!currencyText || isNaN(amount)) {
       this.removeEquivalentPricing(row);
       emitPageDebug("equivalent-missing-details", {
-        currency: currencyText,
-        amount,
-        html: priceContainer.innerHTML
-      });
-      console.debug("[Poe Trade Plus] Skipping pricing injection - Missing details:", {
         currency: currencyText,
         amount,
         html: priceContainer.innerHTML
@@ -229,15 +220,14 @@ export class ItemResultsService {
         const chaosEquiv = Math.round(amount * ratio);
         parts.push({ amount: chaosEquiv, slug: this.CHAOS_SLUG });
     } else {
-        this.removeEquivalentPricing(row);
-        emitPageDebug("equivalent-unresolved", {
-          amount,
-          currencyText,
-          slug,
-          availableSample: this.chaosRatios ? Object.keys(this.chaosRatios).slice(0, 10) : []
-        });
-        console.debug(`[Poe Trade Plus] Could not determine equivalence for ${amount} ${currencyText} (slug: ${slug})`);
-        return;
+      this.removeEquivalentPricing(row);
+      emitPageDebug("equivalent-unresolved", {
+        amount,
+        currencyText,
+        slug,
+        availableSample: this.chaosRatios ? Object.keys(this.chaosRatios).slice(0, 10) : []
+      });
+      return;
     }
 
     emitPageDebug("equivalent-rendered", {
@@ -382,7 +372,6 @@ export class ItemResultsService {
 
     const target = document.querySelector(".search-results, .resultset, .results");
     if (target) {
-      console.log(`[Poe Trade Plus] Attached observer to container: ${target.className}`);
       observer.observe(target, { childList: true, subtree: true });
       this.enhanceResults();
     } else {
@@ -407,10 +396,6 @@ export class ItemResultsService {
     // Re-run equivalent pricing on every visible result because the trade site can recycle DOM nodes between searches.
     const results = document.querySelectorAll(".search-results .result-item, .search-results .row, .result-list .result-item, .row");
     const newResults = Array.from(results).filter((row) => !row.hasAttribute("bt-enhanced"));
-
-    if (results.length > 0) {
-        console.log(`[Poe Trade Plus] Refreshing ${results.length} results (${newResults.length} new rows)...`);
-    }
 
     results.forEach((row: Element) => {
       const typedRow = row as HTMLElement;
