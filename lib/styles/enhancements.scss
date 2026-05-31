@@ -209,6 +209,15 @@ body.bt-has-kroxitrade-sidebar.bt-sidebar-minimized {
   border-radius: 2px !important;
 }
 
+#btns-finer.finer-fixed-right {
+  position: absolute !important;
+  top: 50% !important;
+  right: 4px !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+  margin: 0 !important;
+}
+
 .item-popup__content .item-mod:hover #btns-finer {
   opacity: 1;
   pointer-events: auto;
@@ -217,6 +226,7 @@ body.bt-has-kroxitrade-sidebar.bt-sidebar-minimized {
 .results.compact .item-popup__content .item-mod .lc.r.su:hover #btns-finer,
 .results.compact .item-popup__content .item-mod .lc.r.pr:hover #btns-finer,
 .results.compact .item-popup__content .item-mod .lc.r:hover #btns-finer,
+.results.compact .item-popup__content .item-mod .lc.l:hover #btns-finer,
 .results.compact .item-popup__content .item-mod:hover #btns-finer {
   display: inline-flex;
   opacity: 1;

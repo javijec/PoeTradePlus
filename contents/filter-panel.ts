@@ -161,7 +161,7 @@ export const initFilterPanel = () => {
   };
 
   const attachButtons = (mod: HTMLElement) => {
-    const btns = buttonsTemplate();
+    const btns = (mod.querySelector('#btns-finer') as HTMLElement | null) || buttonsTemplate();
     if (!btns) return;
 
     const staleWrappers = mod.querySelectorAll(':scope > .finer-mod-content, :scope > .finer-mod-actions');
@@ -172,8 +172,6 @@ export const initFilterPanel = () => {
       wrapper.remove();
     });
 
-    if (mod.querySelector('#btns-finer')) return;
-
     mod.style.overflow = "visible";
 
     const rowId = mod.dataset.rowid || getRowId(mod);
@@ -181,8 +179,24 @@ export const initFilterPanel = () => {
     if (rowId) btns.setAttribute('data-rowid', rowId);
     if (statHash) btns.setAttribute('data-hash', statHash);
 
-    const host = mod.querySelector('.lc.r.su, .lc.r.pr, .lc.r') as HTMLElement | null;
-    (host || mod).appendChild(btns);
+    const isImplicitMod = mod.classList.contains('item-mod--implicit');
+    const isUniqueExplicitMod = !!mod.closest('.item-popup--unique') && mod.classList.contains('item-mod--explicit');
+    const isSpecialMod = isImplicitMod || isUniqueExplicitMod;
+    const isCompactResults = !!mod.closest('.results.compact');
+    btns.classList.remove('finer-fixed-right');
+    const host = isSpecialMod && isCompactResults
+      ? (mod.querySelector('.lc.l') as HTMLElement | null)
+      : (mod.querySelector('.lc.r.su, .lc.r.pr, .lc.r') as HTMLElement | null);
+
+    if (isSpecialMod && !isCompactResults) {
+      btns.classList.add('finer-fixed-right');
+    }
+
+    const nextHost = host || mod;
+    if (btns.parentElement !== nextHost) {
+      btns.parentElement?.removeChild(btns);
+      nextHost.appendChild(btns);
+    }
   };
 
   const decorateMod = (mod: HTMLElement, ISGs: any[]) => {
