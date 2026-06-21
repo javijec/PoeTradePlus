@@ -40,3 +40,6 @@ keys.json
 
 # typescript
 .tsbuildinfo
+
+# local scratch / docs artifacts
+tmp_video_frames/

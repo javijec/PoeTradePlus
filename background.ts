@@ -15,7 +15,12 @@ export const registerBackgroundHandlers = () => {
       console.log("[Poe Trade Plus-BG] Requesting poe.ninja:", url)
 
       fetch(url)
-        .then((r) => r.json())
+        .then(async (r) => {
+          if (!r.ok) {
+            throw new Error(`poe.ninja responded with status ${r.status}`)
+          }
+          return r.json()
+        })
         .then((response) => {
           const lineCount = Array.isArray(response?.lines)
             ? response.lines.length
@@ -53,6 +58,9 @@ export const registerBackgroundHandlers = () => {
         body: JSON.stringify(request.body)
       })
         .then(async (response) => {
+          if (!response.ok) {
+            throw new Error(`trade exchange responded with status ${response.status}`)
+          }
           const json = await response.json()
           const resultCount = json?.result ? Object.keys(json.result).length : 0
           console.log(

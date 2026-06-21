@@ -342,7 +342,7 @@ const translations = {
     "header.subtitle": "Compañero de Trade",
     "header.expandSidebar": "Expandir panel",
     "header.minimizeSidebar": "Minimizar panel",
-    "layout.nav.z": "Favoritos",
+    "layout.nav.bookmarks": "Favoritos",
     "layout.nav.bulk": "Bulk",
     "layout.nav.history": "Historial",
     "layout.nav.settings": "Ajustes",
