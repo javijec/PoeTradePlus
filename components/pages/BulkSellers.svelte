@@ -134,6 +134,9 @@
                   <div class="item-actions">
                     <Button label={translate($languageStore, "bulk.find")} theme="blue" onClick={() => findItem(item.id)} />
                     <Button label={translate($languageStore, "bulk.buy")} theme="gold" onClick={() => buyItem(item.id)} />
+                    {#if visitedItems.has(item.id)}
+                      <span class="visited-badge">{translate($languageStore, "bulk.visited")}</span>
+                    {/if}
                   </div>
                 </div>
               {/each}
@@ -309,6 +312,23 @@
     color: $green;
     font-family: $primary-font;
     font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .visited-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 8px;
+    height: 28px;
+    background: rgba($green, 0.15);
+    border: 1px solid rgba($green, 0.4);
+    border-radius: 2px;
+    color: $green;
+    font-family: $primary-font;
+    font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
