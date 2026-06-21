@@ -14,7 +14,7 @@ const tradeMatches = [
   "https://fr.pathofexile.com/trade*",
   "https://es.pathofexile.com/trade*",
   "https://jp.pathofexile.com/trade*",
-  "https://poe.game.daum.net/trade*"
+  "https://poe2.kakaogames.com/trade*"
 ]
 
 export default defineContentScript({

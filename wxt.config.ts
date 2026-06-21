@@ -11,7 +11,7 @@ const tradeMatches = [
   "https://fr.pathofexile.com/*",
   "https://es.pathofexile.com/*",
   "https://jp.pathofexile.com/*",
-  "https://poe.game.daum.net/*"
+  "https://poe2.kakaogames.com/*"
 ]
 
 const iconMap = {

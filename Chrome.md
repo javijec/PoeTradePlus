@@ -29,7 +29,7 @@
 
 🌍 SUPPORTED REGIONS:
 • Global (pathofexile.com)
-• Garena (poe.game.daum.net)
+• KakaoGames (poe2.kakaogames.com)
 • Localizations: BR, RU, TH, DE, FR, ES, JP
 
 💿 DATA PRIVACY:
