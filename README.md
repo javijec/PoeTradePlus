@@ -6,6 +6,9 @@
   <a href="https://chromewebstore.google.com/detail/poe-trade-plus/igofmcebdienfacijkhdppcfiglcbffb">
     <img src="assets/chrome-button.webp" alt="Available in the Chrome Web Store" width="248" height="75" />
   </a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/poe-trade-plus/" target="_blank" rel="noreferrer">
+    <img src="assets/firefox-addon-badge.png" alt="Available on Firefox Add-ons" width="285" height="85" />
+  </a>
 </div>
 
 ---
