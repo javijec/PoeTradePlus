@@ -20,6 +20,7 @@ import Experimental from "./pages/Experimental.svelte";
   import { bookmarksService } from "../lib/services/bookmarks";
   import { languageStore, translate } from "../lib/services/i18n";
   import { settings } from "../lib/services/settings";
+  import { experimentalSettings } from "../lib/services/experimental";
   import { storageService } from "../lib/services/storage";
   import { tradeLocationService } from "../lib/services/trade-location";
   import { hasValidExtensionContext } from "../lib/utilities/extension-context";
@@ -206,6 +207,9 @@ import Experimental from "./pages/Experimental.svelte";
     const unsubscribeLocation = tradeLocationService.locationStore.subscribe((location) => {
       currentTradeVersion = location.version;
       void settings.useVersion(location.version);
+      if (import.meta.env.DEV) {
+        experimentalSettings.useVersion(location.version);
+      }
     });
     welcomeLanguage = $settings.language;
     isDevBuild = import.meta.env.DEV;
@@ -299,6 +303,7 @@ import Experimental from "./pages/Experimental.svelte";
   };
 
   onDestroy(() => {
+    experimentalSettings.teardown();
     window.removeEventListener('mousemove', handleResizeMove);
     window.removeEventListener('mouseup', stopResize);
     window.removeEventListener('mouseleave', stopResize);

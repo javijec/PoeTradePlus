@@ -195,6 +195,9 @@ export const englishTranslations: Record<string, TranslationValue> = {
     "experimental.devOnlyTitle": "Development build only",
     "experimental.devOnlyBody":
       "This space only appears in development builds so we can try ideas without affecting production users.",
+    "experimental.resultActionsTitle": "Always show result actions",
+    "experimental.resultActionsBody":
+      "Keep Refresh, Copy Item, and Filter by Item Stats visible without hovering a result.",
     "settings.hidden": "Hidden",
     "settings.visible": "Visible",
     "settings.on": "On",

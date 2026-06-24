@@ -1,5 +1,12 @@
 <script lang="ts">
   import { languageStore, translate } from "../../lib/services/i18n";
+  import { experimentalSettings } from "../../lib/services/experimental";
+  import ToggleRow from "../ToggleRow.svelte";
+
+  const toggleLabel = (value: boolean) =>
+    value
+      ? translate($languageStore, "settings.on")
+      : translate($languageStore, "settings.off");
 </script>
 
 <section class="experimental-page">
@@ -14,6 +21,19 @@
       <h2>{translate($languageStore, "experimental.devOnlyTitle")}</h2>
       <p>{translate($languageStore, "experimental.devOnlyBody")}</p>
     </div>
+  </div>
+
+  <div class="panel panel--setting">
+    <div class="panel__copy">
+      <h2>{translate($languageStore, "experimental.resultActionsTitle")}</h2>
+      <p>{translate($languageStore, "experimental.resultActionsBody")}</p>
+    </div>
+    <ToggleRow
+      checked={$experimentalSettings}
+      label={translate($languageStore, "experimental.resultActionsTitle")}
+      stateLabel={toggleLabel($experimentalSettings)}
+      onToggle={() => experimentalSettings.setResultActionsVisible(!$experimentalSettings)}
+    />
   </div>
 </section>
 
@@ -70,5 +90,12 @@
 
   .panel__copy {
     min-width: 0;
+  }
+
+  .panel--setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
   }
 </style>

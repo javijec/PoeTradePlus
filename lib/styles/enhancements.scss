@@ -21,6 +21,15 @@ body.bt-has-kroxitrade-sidebar.bt-sidebar-minimized {
   padding-right: 0 !important;
 }
 
+body.bt-dev-result-actions-visible .row > .left > button.refresh,
+body.bt-dev-result-actions-visible .row > .left > button.copy,
+body.bt-dev-result-actions-visible .row > .left > button.searchBy {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
 /* Fix for Path of Exile fixed elements */
 .bt-has-kroxitrade-sidebar .top-bar-container,
 .bt-has-kroxitrade-sidebar .header,

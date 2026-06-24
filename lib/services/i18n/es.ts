@@ -195,6 +195,9 @@ export const spanishTranslations: Record<string, TranslationValue> = {
     "experimental.devOnlyTitle": "Solo en build de desarrollo",
     "experimental.devOnlyBody":
       "Este espacio aparece únicamente en builds de desarrollo para probar cosas sin afectar a usuarios de producción.",
+    "experimental.resultActionsTitle": "Mostrar siempre acciones del resultado",
+    "experimental.resultActionsBody":
+      "Mantiene visibles Actualizar, Copiar objeto y Filtrar por estadísticas sin hacer hover.",
     "settings.hidden": "Oculto",
     "settings.visible": "Visible",
     "settings.on": "On",
