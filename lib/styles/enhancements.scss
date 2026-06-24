@@ -55,6 +55,33 @@ body.bt-dev-poe2-copy-visible .row:hover > .left > button.copy {
   box-shadow: 0 0 8px rgba($gold-alt, 0.75);
 }
 
+.row > .left > button.bt-copy-coe {
+  display: none;
+  position: absolute;
+  left: 76px;
+  bottom: 0;
+  min-width: 30px;
+  height: 24px;
+  padding: 0 5px;
+  border: 1px solid rgba($gold, 0.55);
+  border-radius: 2px;
+  background: rgba($black, 0.82);
+  color: $gold-alt;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+body.bt-dev-poe2-coe-visible .row:hover > .left > button.bt-copy-coe,
+body.bt-dev-result-actions-visible.bt-dev-poe2-coe-visible .row > .left > button.bt-copy-coe {
+  display: block;
+}
+
+.row > .left > button.bt-copy-coe.bt-copy-pob-copied {
+  filter: brightness(1.6);
+  box-shadow: 0 0 8px rgba($gold-alt, 0.75);
+}
+
 /* Fix for Path of Exile fixed elements */
 .bt-has-kroxitrade-sidebar .top-bar-container,
 .bt-has-kroxitrade-sidebar .header,

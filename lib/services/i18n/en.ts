@@ -201,6 +201,9 @@ export const englishTranslations: Record<string, TranslationValue> = {
     "experimental.poe2CopyTitle": "Enable PoE2 Copy button",
     "experimental.poe2CopyBody":
       "Show PoE2's native Copy button and make it copy the item for Path of Building. It follows the same hover behavior as Refresh and Filter by Item Stats.",
+    "experimental.poe2CoeTitle": "Enable Craft of Exile button",
+    "experimental.poe2CoeBody":
+      "Add a CoE button to PoE2 results that copies the item in Craft of Exile's advanced import format.",
     "settings.hidden": "Hidden",
     "settings.visible": "Visible",
     "settings.on": "On",

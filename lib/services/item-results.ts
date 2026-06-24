@@ -7,6 +7,10 @@ import { escapeRegex } from "../utilities/escape-regex";
 import { emitPageDebug } from "../utilities/page-debug";
 import { getCurrencyIconUrl } from "../data/currency-icons";
 import { copyItemForPob } from "../utilities/copy-item-for-pob";
+import {
+  buildCraftOfExileText,
+  copyTextSynchronously
+} from "../utilities/copy-item-for-craft-of-exile";
 import { flashMessages } from "./flash";
 import { experimentalSettings } from "./experimental";
 
@@ -59,6 +63,25 @@ export class ItemResultsService {
   private readonly handleDocumentClick = (event: MouseEvent) => {
     const target = event.target as Element | null;
     const copyButton = target?.closest<HTMLButtonElement>("button.copy");
+    const coeButton = target?.closest<HTMLButtonElement>("button.bt-copy-coe");
+
+    if (
+      coeButton &&
+      tradeLocationService.current.version === "2" &&
+      experimentalSettings.isPoe2CoeVisible()
+    ) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      const row = coeButton.closest<HTMLElement>(".row, .result-item");
+      const text = row ? buildCraftOfExileText(row) : null;
+      if (text && copyTextSynchronously(text)) {
+        this.showCopyFeedback(coeButton, "Copied for Craft of Exile");
+      } else {
+        flashMessages.alert("Could not copy this item for Craft of Exile.");
+      }
+      return;
+    }
 
     if (
       copyButton &&
@@ -70,7 +93,7 @@ export class ItemResultsService {
 
       const row = copyButton.closest<HTMLElement>(".row, .result-item");
       if (row && copyItemForPob(row)) {
-        this.showCopyFeedback(copyButton);
+        this.showCopyFeedback(copyButton, "Copied for Path of Building");
       } else {
         flashMessages.alert("Could not copy this item for Path of Building.");
       }
@@ -79,6 +102,9 @@ export class ItemResultsService {
 
     if (!target?.closest(".btn.search-btn")) return;
     this.schedulePostSearchRefresh();
+  };
+  private readonly handleExperimentalChange = () => {
+    this.enhanceResults();
   };
 
   async initialize() {
@@ -114,12 +140,20 @@ export class ItemResultsService {
     this.startObserving();
     document.removeEventListener("click", this.handleDocumentClick, true);
     document.addEventListener("click", this.handleDocumentClick, true);
+    document.removeEventListener(
+      "poe-trade-plus:experimental-change",
+      this.handleExperimentalChange
+    );
+    document.addEventListener(
+      "poe-trade-plus:experimental-change",
+      this.handleExperimentalChange
+    );
   }
 
-  private showCopyFeedback(button: HTMLButtonElement) {
+  private showCopyFeedback(button: HTMLButtonElement, title: string) {
     const originalTitle = button.title;
     button.classList.add("bt-copy-pob-copied");
-    button.title = "Copied for Path of Building";
+    button.title = title;
 
     window.setTimeout(() => {
       button.classList.remove("bt-copy-pob-copied");
@@ -407,6 +441,7 @@ export class ItemResultsService {
     results.forEach((row: Element) => {
       const typedRow = row as HTMLElement;
       this.enablePoe2CopyButton(typedRow);
+      this.syncPoe2CoeButton(typedRow);
       this.injectEquivalentPricing(typedRow);
 
       if (typedRow.hasAttribute("bt-enhanced")) {
@@ -426,6 +461,29 @@ export class ItemResultsService {
     if (!copyButton) return;
 
     experimentalSettings.applyPoe2CopyButton(copyButton);
+  }
+
+  private syncPoe2CoeButton(row: HTMLElement) {
+    if (tradeLocationService.current.version !== "2") return;
+
+    const left = row.querySelector<HTMLElement>(".left");
+    if (!left) return;
+
+    let button = left.querySelector<HTMLButtonElement>("button.bt-copy-coe");
+    if (!experimentalSettings.isPoe2CoeVisible()) {
+      button?.remove();
+      return;
+    }
+
+    if (button) return;
+
+    button = document.createElement("button");
+    button.type = "button";
+    button.className = "bt-copy-coe";
+    button.title = "Copy for Craft of Exile";
+    button.setAttribute("aria-label", "Copy for Craft of Exile");
+    button.textContent = "CoE";
+    left.appendChild(button);
   }
 
   private refreshEquivalentPricing() {

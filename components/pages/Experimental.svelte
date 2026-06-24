@@ -2,7 +2,8 @@
   import { languageStore, translate } from "../../lib/services/i18n";
   import {
     experimentalSettings,
-    poe2CopyButtonSetting
+    poe2CopyButtonSetting,
+    poe2CoeButtonSetting
   } from "../../lib/services/experimental";
   import ToggleRow from "../ToggleRow.svelte";
 
@@ -49,6 +50,19 @@
       label={translate($languageStore, "experimental.poe2CopyTitle")}
       stateLabel={toggleLabel($poe2CopyButtonSetting)}
       onToggle={() => experimentalSettings.setPoe2CopyVisible(!$poe2CopyButtonSetting)}
+    />
+  </div>
+
+  <div class="panel panel--setting">
+    <div class="panel__copy">
+      <h2>{translate($languageStore, "experimental.poe2CoeTitle")}</h2>
+      <p>{translate($languageStore, "experimental.poe2CoeBody")}</p>
+    </div>
+    <ToggleRow
+      checked={$poe2CoeButtonSetting}
+      label={translate($languageStore, "experimental.poe2CoeTitle")}
+      stateLabel={toggleLabel($poe2CoeButtonSetting)}
+      onToggle={() => experimentalSettings.setPoe2CoeVisible(!$poe2CoeButtonSetting)}
     />
   </div>
 </section>
