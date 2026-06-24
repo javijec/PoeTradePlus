@@ -94,6 +94,9 @@
   const refreshBulkSellers = () => {
     bulkSellersService.refresh();
   };
+
+  const getSellerPanelId = (seller: string) =>
+    `bulk-seller-items-${seller.toLowerCase().replace(/[^a-z0-9_-]+/g, "-")}`;
 </script>
 
 <div class="bulk-sellers-page">
@@ -101,9 +104,14 @@
     <div class="groups">
       {#each $bulkSellers as group (group.seller)}
         <section class="seller-group">
-          <button class="seller-header" type="button" onclick={() => toggleSeller(group.seller)}>
+          <button
+            class="seller-header"
+            type="button"
+            aria-expanded={!collapsedLookup.has(group.seller)}
+            aria-controls={getSellerPanelId(group.seller)}
+            onclick={() => toggleSeller(group.seller)}>
             <div class="seller-header-main">
-              <span class="seller-caret">{collapsedLookup.has(group.seller) ? "▶" : "▼"}</span>
+              <span class="seller-caret" aria-hidden="true">{collapsedLookup.has(group.seller) ? "▶" : "▼"}</span>
               <div class="seller-name">{group.seller}</div>
             </div>
             <div class="seller-header-meta">
@@ -115,7 +123,7 @@
           </button>
 
           {#if !collapsedLookup.has(group.seller)}
-            <div class="seller-items">
+            <div class="seller-items" id={getSellerPanelId(group.seller)}>
               {#each group.items as item (item.id)}
                 <div class="seller-item" title={item.itemName} aria-label={`${item.itemName}: ${item.priceLabel}`}>
                   <div class="item-price">

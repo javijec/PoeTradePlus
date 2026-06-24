@@ -192,13 +192,14 @@
                       <span class="history-relative">{formatRelativeTime(entry.createdAt)}</span>
                     </div>
 
-                    <div class="history-title">{entry.title}</div>
-
-                    <div class="history-meta">
-                      {new Intl.DateTimeFormat($languageStore, {
-                        dateStyle: "medium",
-                        timeStyle: "short"
-                      }).format(new Date(entry.createdAt))}
+                    <div class="history-link__headline">
+                      <div class="history-title">{entry.title}</div>
+                      <div class="history-meta">
+                        {new Intl.DateTimeFormat($languageStore, {
+                          dateStyle: "medium",
+                          timeStyle: "short"
+                        }).format(new Date(entry.createdAt))}
+                      </div>
                     </div>
                   </a>
                 </li>
@@ -329,7 +330,16 @@
     white-space: nowrap;
   }
 
+  .history-link__headline {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+  }
+
   .history-title {
+    flex: 1;
     font-size: 13px;
     font-weight: 700;
     line-height: 1.45;
@@ -338,10 +348,11 @@
   }
 
   .history-meta {
-    margin-top: 6px;
+    flex: 0 0 auto;
     font-size: 11px;
     color: rgba($white, 0.62);
     overflow-wrap: anywhere;
+    white-space: nowrap;
   }
 
   :global(.clear-button) {

@@ -433,6 +433,16 @@
     void openTrade(trade)
   }
 
+  const shouldIgnoreTradeCardClick = (target: EventTarget | null) => {
+    const element = target instanceof HTMLElement ? target : null
+    return !!element?.closest("button, a, input, textarea, select, [data-no-card-open]")
+  }
+
+  const handleTradeCardClick = (event: MouseEvent | PointerEvent, trade: BookmarksTradeStruct) => {
+    if (shouldIgnoreTradeCardClick(event.target)) return
+    openTradeFromCard(trade)
+  }
+
   const icons = {
     grip: normalizeIcon(gripVerticalIcon)
   }
@@ -515,8 +525,7 @@
     <div
       class="folder-drag-handle"
       title={translate($languageStore, "folder.dragReorder")}
-      aria-hidden="true"
-      role="button">
+      aria-hidden="true">
       <span class="action-icon">{@html icons.grip}</span>
     </div>
     <button
@@ -641,91 +650,74 @@
                 class:is-completed={!!trade.completedAt}
                 class:is-dragging={draggedIndex === i}
                 class:is-drag-over={dragOverIndex === i}
-                role="button"
-                tabindex="0"
+                role="group"
                 aria-label={trade.title}
-                onclick={() => openTradeFromCard(trade)}
-                onkeydown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault()
-                    openTradeFromCard(trade)
-                  }
-                }}>
-              <button
-                type="button"
-                class="drag-handle"
-                title={translate($languageStore, "folder.dragTrade")}
-                onclick={(event) => event.stopPropagation()}>
-                ≡
-              </button>
-              <div class="trade-content">
-                <div class="trade-top">
-                  {#if editingTradeId === trade.id}
-                    <input
-                      type="text"
-                      class="inline-edit-input trade-edit"
-                      bind:this={tradeEditInputEl}
-                      bind:value={tradeEditTitle}
-                      onblur={() => saveTradeTitle(trade)}
-                      onkeydown={(e) => {
-                        e.stopPropagation()
-                        if (e.key === "Enter") saveTradeTitle(trade)
-                        if (e.key === "Escape") cancelTradeEdit()
-                      }}
-                      onclick={(event) => event.stopPropagation()} />
-                  {:else}
-                    <div class="trade-copy">
-                      <a
-                        class="trade-link"
-                        href={getTradeUrl(
-                          trade.location.version,
-                          trade.location.type,
-                          trade.location.slug,
-                          trade.location.league ||
-                            tradeLocationService.current.league ||
-                            "Standard"
-                        )}
-                        title={trade.title}
-                        onclick={(event) => {
-                          event.preventDefault()
-                          event.stopPropagation()
-                          void openTrade(trade)
-                        }}>
-                        {trade.title}
-                      </a>
-                    </div>
-                  {/if}
+                onpointerup={(event) => handleTradeCardClick(event, trade)}>
+                <button
+                  type="button"
+                  class="drag-handle"
+                  title={translate($languageStore, "folder.dragTrade")}
+                  aria-label={translate($languageStore, "folder.dragTrade")}
+                  data-no-card-open="true"
+                  onclick={(event) => event.stopPropagation()}>
+                  ≡
+                </button>
+                <div class="trade-content">
+                  <div class="trade-top">
+                    {#if editingTradeId === trade.id}
+                      <input
+                        type="text"
+                        class="inline-edit-input trade-edit"
+                        bind:this={tradeEditInputEl}
+                        bind:value={tradeEditTitle}
+                        onblur={() => saveTradeTitle(trade)}
+                        onkeydown={(e) => {
+                          e.stopPropagation()
+                          if (e.key === "Enter") saveTradeTitle(trade)
+                          if (e.key === "Escape") cancelTradeEdit()
+                        }}
+                        onclick={(event) => event.stopPropagation()} />
+                    {:else}
+                      <div class="trade-copy">
+                        <span
+                          class="trade-link"
+                          title={trade.title}
+                          data-no-card-open="true">
+                          {trade.title}
+                        </span>
+                      </div>
+                    {/if}
 
-                  {#if $settings.compactActionsMenu}
-                    <div class="trade-actions trade-actions--compact">
-                      <TradeActionsMenu
-                        {trade}
-                        compactText={formatTradeMeta(trade)}
-                        onEdit={() => void startEditingTrade(trade)}
-                        onReplace={() => void replaceSearchWithCurrent(trade)}
-                        onCopy={() => copyTrade(trade)}
-                        onOpenLive={() => void openTradeLive(trade)}
-                        onToggle={() => void toggleTrade(trade)}
-                        onDelete={() => requestTradeDelete(trade)} />
+                    {#if $settings.compactActionsMenu}
+                      <div class="trade-actions trade-actions--compact">
+                        <TradeActionsMenu
+                          {trade}
+                          compactText={formatTradeMeta(trade)}
+                          onEdit={() => void startEditingTrade(trade)}
+                          onReplace={() => void replaceSearchWithCurrent(trade)}
+                          onCopy={() => copyTrade(trade)}
+                          onOpenLive={() => void openTradeLive(trade)}
+                          onToggle={() => void toggleTrade(trade)}
+                          onDelete={() => requestTradeDelete(trade)} />
+                      </div>
+                    {/if}
+                  </div>
+                  {#if !$settings.compactActionsMenu}
+                    <div class="trade-bottom">
+                      <div class="trade-meta">{formatTradeMeta(trade)}</div>
+                      <div class="trade-actions">
+                        <TradeActionsMenu
+                          {trade}
+                          onEdit={() => void startEditingTrade(trade)}
+                          onReplace={() => void replaceSearchWithCurrent(trade)}
+                          onCopy={() => copyTrade(trade)}
+                          onOpenLive={() => void openTradeLive(trade)}
+                          onToggle={() => void toggleTrade(trade)}
+                          onDelete={() => requestTradeDelete(trade)} />
+                      </div>
                     </div>
                   {/if}
                 </div>
-                {#if !$settings.compactActionsMenu}
-                  <div class="trade-bottom">
-                    <div class="trade-meta">{formatTradeMeta(trade)}</div>
-                    <div class="trade-actions">
-                      <TradeActionsMenu
-                        {trade}
-                        onEdit={() => void startEditingTrade(trade)}
-                        onReplace={() => void replaceSearchWithCurrent(trade)}
-                        onCopy={() => copyTrade(trade)}
-                        onOpenLive={() => void openTradeLive(trade)}
-                        onToggle={() => void toggleTrade(trade)}
-                        onDelete={() => requestTradeDelete(trade)} />
-                    </div>
-                  </div>
-                {/if}
-              </div>
               </div>
             </li>
           {/each}
@@ -1165,15 +1157,12 @@
     text-decoration: none;
     font-size: 13px;
     line-height: 1.2;
+    cursor: inherit;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   .trade-meta {
