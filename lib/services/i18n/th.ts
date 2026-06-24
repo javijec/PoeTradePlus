@@ -40,6 +40,7 @@ export const thaiTranslations: Record<string, TranslationValue> = {
   "settings.compactTradeActionsDescription":
     "เลือกว่าการทำงานใดของการค้นหาที่บันทึกไว้จะยังแสดงอยู่ในโหมดกะทัดรัด หากไม่เลือกเลยจะเห็นเฉพาะเมนูสามจุด หากเลือกทั้งหมดหรือทั้งหมดยกเว้นหนึ่งรายการ จะเห็นทั้งหมด",
   "settings.compactTradeActionToggle": "เสร็จสิ้น / รอดำเนินการ",
+  "settings.saveFailed": "ไม่สามารถบันทึกการตั้งค่าได้ โปรดลองอีกครั้ง",
   "about.eyebrow": "เกี่ยวกับ",
   "about.description":
     "Poe Trade Plus เป็นส่วนเสริมสำหรับ Path of Exile Trade ที่สร้างขึ้นเพื่อบันทึกการค้นหา จัดระเบียบโฟลเดอร์ ติดตามประวัติ และทำให้การซื้อขายที่ทำซ้ำบ่อยรวดเร็ว มองเห็นได้ง่าย และจัดการได้สะดวกภายในเว็บไซต์ทางการ",

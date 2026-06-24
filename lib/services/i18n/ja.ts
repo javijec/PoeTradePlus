@@ -45,6 +45,7 @@ export const japaneseTranslations: Record<string, TranslationValue> = {
   "settings.compactTradeActionsDescription":
     "コンパクトモードで表示したままにする保存済み検索の操作を選択します。何も選ばない場合は3点メニューのみ表示されます。すべて、または1つを除いて選択した場合は、すべての操作が表示されます。",
   "settings.compactTradeActionToggle": "完了 / 保留",
+  "settings.saveFailed": "設定を保存できませんでした。もう一度お試しください。",
   "about.eyebrow": "概要",
   "about.description":
     "Poe Trade Plus は Path of Exile Trade 用の補助ツールで、検索の保存、フォルダー整理、履歴管理を行い、繰り返し使うトレード作業を公式サイト上で素早く見やすく簡単に管理できるようにします。",

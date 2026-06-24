@@ -40,6 +40,7 @@ export const germanTranslations: Record<string, TranslationValue> = {
   "settings.compactTradeActionsDescription":
     "Wähle aus, welche Aktionen gespeicherter Suchen im kompakten Modus sichtbar bleiben. Wenn nichts ausgewählt ist, wird nur das Drei-Punkte-Menü angezeigt. Wenn alle oder alle bis auf eine ausgewählt sind, bleiben alle sichtbar.",
   "settings.compactTradeActionToggle": "Abgeschlossen / Offen",
+  "settings.saveFailed": "Einstellungen konnten nicht gespeichert werden. Bitte versuche es erneut.",
   "about.description":
     "Poe Trade Plus ist ein Begleiter für Path of Exile Trade, entwickelt zum Speichern von Suchen, Organisieren von Ordnern, Nachverfolgen des Verlaufs und für schnelle, übersichtliche wiederkehrende Handelsabläufe direkt auf der offiziellen Seite.",
   "about.patreon": "Patreon",

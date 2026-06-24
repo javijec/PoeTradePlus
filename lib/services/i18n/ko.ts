@@ -45,6 +45,7 @@ export const koreanTranslations: Record<string, TranslationValue> = {
   "settings.compactTradeActionsDescription":
     "컴팩트 모드에서 계속 보일 저장된 검색 작업을 선택하세요. 아무것도 선택하지 않으면 점 세 개 메뉴만 보입니다. 모두 선택하거나 하나만 제외하고 선택하면 모든 작업이 보입니다.",
   "settings.compactTradeActionToggle": "완료 / 대기",
+  "settings.saveFailed": "설정을 저장하지 못했습니다. 다시 시도해 주세요.",
   "about.eyebrow": "정보",
   "about.description":
     "Poe Trade Plus는 Path of Exile Trade용 보조 도구로, 검색 저장, 폴더 정리, 기록 추적을 지원하며 반복적인 거래 작업을 공식 사이트 안에서 빠르고 보기 쉽게 관리할 수 있게 해줍니다.",
