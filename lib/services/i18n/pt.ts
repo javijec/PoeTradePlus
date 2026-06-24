@@ -108,6 +108,7 @@ export const portugueseTranslations: Record<string, TranslationValue> = {
     "Suas buscas recentes de trade aparecerão aqui quando você as abrir no site oficial.",
   "history.today": "Hoje",
   "history.yesterday": "Ontem",
+  "history.standardLeague": "Standard",
   "folder.copiedTrade": ({ title }) =>
     `${title} copiado para a área de transferência`,
   "folder.copyTradeError": "Não foi possível copiar a URL do trade.",

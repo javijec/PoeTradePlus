@@ -102,6 +102,7 @@ export const russianTranslations: Record<string, TranslationValue> = {
     "Недавние торговые поиски появятся здесь после открытия на официальном сайте торговли.",
   "history.today": "Сегодня",
   "history.yesterday": "Вчера",
+  "history.standardLeague": "Standard",
   "folder.copiedTrade": ({ title }) => `${title} скопирован в буфер обмена`,
   "folder.copyTradeError": "Не удалось скопировать URL трейда.",
   "folder.duplicatedTrade": ({ title }) => `${title} дублирован`,

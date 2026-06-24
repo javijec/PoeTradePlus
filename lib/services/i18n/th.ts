@@ -102,6 +102,7 @@ export const thaiTranslations: Record<string, TranslationValue> = {
     "การค้นหา trade ล่าสุดจะแสดงที่นี่เมื่อคุณเปิดจากเว็บไซต์ trade อย่างเป็นทางการ",
   "history.today": "วันนี้",
   "history.yesterday": "เมื่อวาน",
+  "history.standardLeague": "Standard",
   "folder.copiedTrade": ({ title }) => `คัดลอก ${title} ไปยังคลิปบอร์ดแล้ว`,
   "folder.copyTradeError": "ไม่สามารถคัดลอก URL ของ trade ได้",
   "folder.duplicatedTrade": ({ title }) => `คัดลอก ${title} แล้ว`,

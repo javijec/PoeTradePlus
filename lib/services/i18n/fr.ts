@@ -107,6 +107,7 @@ export const frenchTranslations: Record<string, TranslationValue> = {
     "Vos recherches de trade récentes apparaîtront ici une fois ouvertes depuis le site officiel.",
   "history.today": "Aujourd'hui",
   "history.yesterday": "Hier",
+  "history.standardLeague": "Standard",
   "folder.copiedTrade": ({ title }) => `${title} copié dans le presse-papiers`,
   "folder.copyTradeError": "Impossible de copier l’URL du trade.",
   "folder.duplicatedTrade": ({ title }) => `${title} dupliqué`,

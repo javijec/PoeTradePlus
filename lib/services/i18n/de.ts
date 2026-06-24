@@ -104,6 +104,7 @@ export const germanTranslations: Record<string, TranslationValue> = {
     "Zuletzt geöffnete Handelssuchen erscheinen hier, sobald du sie auf der offiziellen Handelsseite öffnest.",
   "history.today": "Heute",
   "history.yesterday": "Gestern",
+  "history.standardLeague": "Standard",
   "folder.copiedTrade": ({ title }) => `${title} in die Zwischenablage kopiert`,
   "folder.copyTradeError": "Die Trade-URL konnte nicht kopiert werden.",
   "folder.duplicatedTrade": ({ title }) => `${title} dupliziert`,

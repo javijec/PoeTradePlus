@@ -280,6 +280,7 @@ export const spanishTranslations: Record<string, TranslationValue> = {
       "Tus búsquedas recientes de trade van a aparecer acá cuando las abras desde el sitio oficial.",
     "history.today": "Hoy",
     "history.yesterday": "Ayer",
+    "history.standardLeague": "Standard",
     "folder.metaSeparator": " • ",
     "folder.copiedTrade": ({ title }) => `Se copió ${title} al portapapeles`,
     "folder.copyTradeError": "No se pudo copiar la URL del trade.",

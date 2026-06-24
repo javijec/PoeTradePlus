@@ -103,6 +103,20 @@
     return rtf.format(diffDays, "day");
   };
 
+  const formatLeagueLabel = (league: string | null) => {
+    if (!league) {
+      return translate($languageStore, "history.standardLeague");
+    }
+
+    const lastSegment = league.split("/").pop() || league;
+
+    try {
+      return decodeURIComponent(lastSegment);
+    } catch {
+      return lastSegment.replace(/\+/g, " ");
+    }
+  };
+
   const groupHistoryEntries = (entries: TradeLocationHistoryStruct[]) => {
     const groups: HistoryGroup[] = [];
     const groupedMap = new Map<string, HistoryGroup>();
@@ -174,7 +188,7 @@
                     }}
                   >
                     <div class="history-link__topline">
-                      <span class="history-league">{entry.league}</span>
+                      <span class="history-league">{formatLeagueLabel(entry.league)}</span>
                       <span class="history-relative">{formatRelativeTime(entry.createdAt)}</span>
                     </div>
 

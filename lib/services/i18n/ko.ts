@@ -107,6 +107,7 @@ export const koreanTranslations: Record<string, TranslationValue> = {
     "공식 거래 사이트에서 연 최근 거래 검색이 여기에 표시됩니다.",
   "history.today": "오늘",
   "history.yesterday": "어제",
+  "history.standardLeague": "Standard",
   "folder.copiedTrade": ({ title }) => `${title}을(를) 클립보드에 복사했습니다`,
   "folder.copyTradeError": "거래 URL을 복사할 수 없습니다.",
   "folder.duplicatedTrade": ({ title }) => `${title}을(를) 복제했습니다`,

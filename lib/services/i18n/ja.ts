@@ -108,6 +108,7 @@ export const japaneseTranslations: Record<string, TranslationValue> = {
     "公式トレードサイトで開いた最近の検索がここに表示されます。",
   "history.today": "今日",
   "history.yesterday": "昨日",
+  "history.standardLeague": "Standard",
   "folder.copiedTrade": ({ title }) =>
     `${title} をクリップボードにコピーしました`,
   "folder.copyTradeError": "トレード URL をコピーできませんでした。",
