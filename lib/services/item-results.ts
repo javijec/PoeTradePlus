@@ -68,7 +68,6 @@ export class ItemResultsService {
 
     if (
       coeButton &&
-      tradeLocationService.current.version === "2" &&
       experimentalSettings.isCoeVisible()
     ) {
       event.preventDefault();
@@ -77,7 +76,7 @@ export class ItemResultsService {
       const row = coeButton.closest<HTMLElement>(".row, .result-item");
       const text = row ? buildCraftOfExileText(row) : null;
       if (text && copyTextSynchronously(text)) {
-        this.showCopyFeedback(coeButton, "Copied for Craft of Exile");
+        this.showCopyFeedback("Item copied for Craft of Exile.");
       } else {
         flashMessages.alert("Could not copy this item for Craft of Exile.");
       }
@@ -94,7 +93,7 @@ export class ItemResultsService {
 
       const row = copyButton.closest<HTMLElement>(".row, .result-item");
       if (row && copyItemForPob(row)) {
-        this.showCopyFeedback(copyButton, "Copied for Path of Building");
+        this.showCopyFeedback("Item text copied.");
       } else {
         flashMessages.alert("Could not copy this item for Path of Building.");
       }
@@ -151,14 +150,66 @@ export class ItemResultsService {
     );
   }
 
-  private showCopyFeedback(button: HTMLButtonElement, title: string) {
-    const originalTitle = button.title;
-    button.classList.add("bt-copy-pob-copied");
-    button.title = title;
+  private showCopyFeedback(toastMessage: string) {
+    this.showItemCopiedToast(toastMessage);
+  }
+
+  private showItemCopiedToast(message: string) {
+    document.querySelector(".poe-toast-trade.bt-item-copied-toast")?.remove();
+
+    let container = document.body.querySelector<HTMLElement>(
+      ".poe-toast-container.poe-toast-container--position-bottom-center"
+    );
+    if (!container) {
+      container = document.createElement("div");
+      container.className =
+        "poe-toast-container poe-toast-container--position-bottom-center bt-item-copied-toast-container";
+      document.body.appendChild(container);
+    }
+
+    const toast = document.createElement("div");
+    toast.className =
+      "poe-toast-trade poe-toast-trade--type-success bt-item-copied-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+
+    const content = document.createElement("div");
+    content.className = "poe-toast-trade__content";
+
+    const title = document.createElement("div");
+    title.className = "poe-toast-trade__title";
+    title.textContent = message;
+    content.appendChild(title);
+
+    const close = document.createElement("button");
+    close.type = "button";
+    close.className = "poe-toast-trade__close";
+    close.textContent = "×";
+    close.setAttribute("aria-label", "Close");
+    close.addEventListener("click", () => {
+      toast.remove();
+      if (
+        container?.classList.contains("bt-item-copied-toast-container") &&
+        container.childElementCount === 0
+      ) {
+        container.remove();
+      }
+    });
+
+    toast.append(content, close);
+    container.appendChild(toast);
 
     window.setTimeout(() => {
-      button.classList.remove("bt-copy-pob-copied");
-      button.title = originalTitle;
+      toast.classList.add("is-leaving");
+      window.setTimeout(() => {
+        toast.remove();
+        if (
+          container?.classList.contains("bt-item-copied-toast-container") &&
+          container.childElementCount === 0
+        ) {
+          container.remove();
+        }
+      }, 180);
     }, 1500);
   }
 
@@ -465,8 +516,6 @@ export class ItemResultsService {
   }
 
   private syncCoeButton(row: HTMLElement) {
-    if (tradeLocationService.current.version !== "2") return;
-
     const left = row.querySelector<HTMLElement>(".left");
     if (!left) return;
 
