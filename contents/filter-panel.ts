@@ -384,20 +384,9 @@ export const initFilterPanel = () => {
     }
   }
 
-  const findStatFiltersGroup = () =>
-    Array.from(
-      document.querySelectorAll<HTMLElement>(".search-advanced-pane .filter-group")
-    ).find((group) =>
-      group
-        .querySelector(".filter-group-header .filter-title")
-        ?.textContent?.trim()
-        .toLowerCase()
-        .includes("stat filters")
-    )
-
   const injectSearchPanelQuickFilters = () => {
-    const group = findStatFiltersGroup()
-    if (!group || group.querySelector('[data-krox-filter-presets="true"]')) {
+    const pane = document.querySelector<HTMLElement>(".search-advanced-pane.brown")
+    if (!pane || pane.querySelector('[data-krox-filter-presets="true"]')) {
       return
     }
 
@@ -435,8 +424,8 @@ export const initFilterPanel = () => {
       list.appendChild(row)
     })
 
-    const header = group.querySelector(".filter-group-header")
-    header?.insertAdjacentElement("afterend", panel)
+    const firstExpandedGroup = pane.querySelector(".filter-group.expanded")
+    pane.insertBefore(panel, firstExpandedGroup || pane.firstChild)
   }
 
   on("click", ".krox-filter-preset__btn", (e: any, el: HTMLElement) => {
