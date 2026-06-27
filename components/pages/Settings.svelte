@@ -57,7 +57,6 @@
     "settings-equivalent": "results",
     "settings-bulk": "sidebar",
     "settings-history": "sidebar",
-    "settings-filters": "sidebar",
     "settings-bookmarks": "bookmarks"
   };
   const compactTradeActionOptions: Array<{ id: BookmarkTradeActionId; labelKey: string; icon: string }> = [
@@ -149,12 +148,6 @@
 
   async function handleHistoryChange(showHistory: boolean) {
     if (!(await settings.updateHistoryVisibility(showHistory))) {
-      flashMessages.alert(translate($languageStore, "settings.saveFailed"));
-    }
-  }
-
-  async function handleFinerFiltersChange(showFinerFilters: boolean) {
-    if (!(await settings.updateFinerFiltersVisibility(showFinerFilters))) {
       flashMessages.alert(translate($languageStore, "settings.saveFailed"));
     }
   }
@@ -443,18 +436,6 @@
             />
           </div>
 
-          <div class="settings-row" data-tutorial="settings-filters">
-            <div class="settings-row__copy">
-              <div class="settings-row__title">{translate($languageStore, "settings.finerFiltersTitle")}</div>
-              <div class="settings-row__description">{translate($languageStore, "settings.finerFiltersDescription")}</div>
-            </div>
-            <ToggleRow
-              checked={$settings.showFinerFilters}
-              label={translate($languageStore, "settings.finerFiltersTitle")}
-              stateLabel={toggleSwitchLabel($settings.showFinerFilters)}
-              onToggle={() => handleFinerFiltersChange(!$settings.showFinerFilters)}
-            />
-          </div>
         </div>
       </section>
 

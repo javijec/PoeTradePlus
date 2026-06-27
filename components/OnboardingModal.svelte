@@ -14,7 +14,6 @@
     | "settings-equivalent"
     | "settings-bulk"
     | "settings-history"
-    | "settings-filters"
     | "settings-bookmarks"
 
   type OnboardingStep = {
@@ -184,20 +183,6 @@
         translate($languageStore, "onboarding.step9Highlight1"),
         translate($languageStore, "onboarding.step9Highlight2"),
         translate($languageStore, "onboarding.step9Highlight3")
-      ]
-    },
-    {
-      id: "settings-filters" as OnboardingStepId,
-      page: "settings" as OnboardingPage,
-      targetSelector: '[data-tutorial="settings-filters"]',
-      preferredPlacement: "above",
-      eyebrow: translate($languageStore, "onboarding.step10Eyebrow"),
-      title: translate($languageStore, "onboarding.step10Title"),
-      body: translate($languageStore, "onboarding.step10Body"),
-      steps: [
-        translate($languageStore, "onboarding.step10Highlight1"),
-        translate($languageStore, "onboarding.step10Highlight2"),
-        translate($languageStore, "onboarding.step10Highlight3")
       ]
     },
     {

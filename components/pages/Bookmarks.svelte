@@ -34,7 +34,6 @@
     | "settings-equivalent"
     | "settings-bulk"
     | "settings-history"
-    | "settings-filters"
     | "settings-bookmarks"
     | null;
     tutorialFolderId?: string | null;
