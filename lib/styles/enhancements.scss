@@ -53,6 +53,8 @@ body.bt-dev-poe2-copy-visible .row:hover > .left > button.copy {
 .row > .left > button.bt-copy-coe {
   display: none;
   position: absolute;
+  align-items: center;
+  justify-content: center;
   width: 30px;
   height: 30px;
   padding: 0;
@@ -61,9 +63,6 @@ body.bt-dev-poe2-copy-visible .row:hover > .left > button.copy {
   cursor: pointer;
 
   img {
-    position: absolute;
-    right: 0px;
-    top: 0px;
     display: block;
     width: 30px;
     height: 30px;
@@ -75,7 +74,7 @@ body.bt-dev-poe2-copy-visible .row:hover > .left > button.copy {
 
 body.bt-dev-coe-visible .row:hover > .left > button.bt-copy-coe,
 body.bt-dev-result-actions-visible.bt-dev-coe-visible .row > .left > button.bt-copy-coe {
-  display: block;
+  display: inline-flex;
 }
 
 .bt-item-copied-toast-container {
