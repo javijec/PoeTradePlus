@@ -231,6 +231,32 @@ body.bt-dev-result-actions-visible.bt-dev-coe-visible .row > .left > button.bt-c
   position: relative;
 }
 
+.bt-mb-explanation-line {
+  display: inline-block;
+  position: relative;
+}
+
+.bt-mb-explanation-detail {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  z-index: 10;
+  transform: translateY(-50%);
+  margin-left: 4px;
+  color: var(--colour-default);
+  font-size: 11px;
+  line-height: 1.3;
+  opacity: 0;
+  visibility: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.bt-mb-explanation-line:hover .bt-mb-explanation-detail {
+  opacity: 1;
+  visibility: visible;
+}
+
 .btn-finer {
   display: inline-flex;
   align-items: center;
