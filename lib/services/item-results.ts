@@ -6,6 +6,10 @@ import { slugify } from "../utilities/slugify";
 import { escapeRegex } from "../utilities/escape-regex";
 import { emitPageDebug } from "../utilities/page-debug";
 import { getCurrencyIconUrl } from "../data/currency-icons";
+import {
+  MAGEBLOOD_LEGACY_TEXTS,
+  type MagebloodLegacyLocale
+} from "../data/mageblood-legacy-texts";
 import coeButtonImage from "../../assets/coe-button.webp?inline";
 import { copyItemForPob } from "../utilities/copy-item-for-pob";
 import {
@@ -33,30 +37,23 @@ const ILVL_THRESHOLDS = [
 
 interface LegacyEffect {
   stats: Array<[number, string]>;
-  note?: string;
 }
 
-interface MagebloodLegacy {
-  mod: HTMLElement;
-  key: string;
-  title: string;
-}
-
-const MAGEBLOOD_LEGACY_EFFECTS: Record<string, LegacyEffect> = {
-  amethyst: { stats: [[45, "% to Chaos Resistance"]] },
-  basalt: { stats: [[150, "% increased Armour"]] },
-  bismuth: { stats: [[45, "% to all Elemental Resistances"]] },
-  diamond: { stats: [[75, "% increased Critical Hit Chance"]] },
-  gold: { stats: [[45, "% increased Rarity of Items found"]] },
-  granite: { stats: [[2000, " to Armour"]] },
-  jade: { stats: [[2000, " to Evasion Rating"]] },
-  quicksilver: { stats: [[30, "% increased Movement Speed"]] },
-  ruby: { stats: [[60, "% to Fire Resistance"], [5, "% to Maximum Fire Resistance"]] },
-  sapphire: { stats: [[60, "% to Cold Resistance"], [5, "% to Maximum Cold Resistance"]] },
-  silver: { stats: [[30, "% increased Skill Speed"]] },
-  stibnite: { stats: [[150, "% increased Evasion Rating"]] },
-  sulphur: { stats: [[60, "% increased Damage"]], note: "Consecrated Ground while stationary" },
-  topaz: { stats: [[60, "% to Lightning Resistance"], [5, "% to Maximum Lightning Resistance"]] }
+const MAGEBLOOD_LEGACY_VARIANTS: Record<string, string> = {
+  "1": "amethyst",
+  "2": "basalt",
+  "3": "bismuth",
+  "4": "diamond",
+  "5": "gold",
+  "6": "granite",
+  "7": "jade",
+  "8": "quicksilver",
+  "9": "ruby",
+  "10": "sapphire",
+  "11": "silver",
+  "12": "stibnite",
+  "13": "sulphur",
+  "14": "topaz"
 };
 
 const MAGEBLOOD_LEGACY_ALIASES: Record<string, string> = {
@@ -74,10 +71,19 @@ const MAGEBLOOD_LEGACY_ALIASES: Record<string, string> = {
   plata: "silver",
   antimonio: "stibnite",
   azufre: "sulphur",
-  topacio: "topaz"
+  topacio: "topaz",
+  mercurio: "quicksilver",
+  estibina: "stibnite",
+  ametista: "amethyst",
+  ouro: "gold",
+  safira: "sapphire",
+  prata: "silver",
+  enxofre: "sulphur"
 };
 
-const MAGEBLOOD_LEGACY_PATTERN = /^(?:Legacy of|Legado de) (.+)$/i;
+const MAGEBLOOD_LEGACY_FIELD_PATTERN = /stat\.explicit\.stat_264262054\|(\d+)/;
+const MAGEBLOOD_DUPLICATE_FIELD = "stat.explicit.stat_3874491706";
+const MAGEBLOOD_LEGACY_PATTERN = /^(?:Legacy of|Legado de|มรดกแห่ง) (.+)$/i;
 const MAGEBLOOD_DUPLICATE_PATTERN =
   /(?:Mage(?:'|\u2019)?s Legacies have (\d+)% increased effect per duplicate|legados de mago.*efecto aumentado un (\d+)%.*legado de mago duplicado)/i;
 const MAGEBLOOD_LEGACY_CLASS = "bt-mb-legacy";
@@ -92,17 +98,49 @@ const normalizeMagebloodLegacyKey = (name: string) => {
   return MAGEBLOOD_LEGACY_ALIASES[normalized] || normalized;
 };
 
-const isAdditiveLegacyStat = (suffix: string) =>
-  !/increased|reduced|more|less/i.test(suffix);
-
-const formatLegacyStat = (value: number, suffix: string) =>
-  `${isAdditiveLegacyStat(suffix) && value >= 0 ? "+" : ""}${value}${suffix}`;
-
-const compactLegacyStat = (value: number, suffix: string) =>
-  `${isAdditiveLegacyStat(suffix) && value >= 0 ? "+" : ""}${value}${suffix.startsWith("%") ? "%" : ""}`;
-
 const titleCaseLegacyName = (name: string) =>
   name.charAt(0).toUpperCase() + name.slice(1);
+
+const getMagebloodLegacyLocale = (): MagebloodLegacyLocale => {
+  const host = window.location.hostname.toLowerCase();
+  if (host === "poe2.kakaogames.com") return "ko";
+  const subdomain = host.split(".")[0];
+  if (subdomain === "br") return "pt";
+  if (subdomain === "jp") return "jp";
+  if (["es", "pt", "ru", "th", "de", "fr"].includes(subdomain)) {
+    return subdomain as MagebloodLegacyLocale;
+  }
+  return "en";
+};
+
+const getMagebloodLegacyBaseLabel = (locale: MagebloodLegacyLocale) =>
+  ({
+    en: "base",
+    es: "base",
+    pt: "base",
+    ru: "база",
+    th: "ฐาน",
+    de: "Basis",
+    fr: "base",
+    jp: "基礎",
+    ko: "기본"
+  })[locale];
+
+const getMagebloodLegacyEffectLabel = (locale: MagebloodLegacyLocale) =>
+  ({
+    en: "effect",
+    es: "de efecto",
+    pt: "de efeito",
+    ru: "эффекта",
+    th: "ผล",
+    de: "Effekt",
+    fr: "d'effet",
+    jp: "効果",
+    ko: "효과"
+  })[locale];
+
+const formatMagebloodLegacyLine = (template: string, value: number) =>
+  template.replace("{value}", `${value}`);
 
 
 
@@ -695,10 +733,20 @@ export class ItemResultsService {
     row.querySelectorAll<HTMLElement>('.item-mod [data-field^="stat."]').forEach((valueSpan) => {
       const inner = valueSpan.querySelector<HTMLElement>("span") || valueSpan;
       const text = (inner.textContent || "").replace(/\s+/g, " ").trim();
+      const field = valueSpan.dataset.field || "";
+      const mod = valueSpan.closest<HTMLElement>(".item-mod");
+
+      const legacyFieldMatch = field.match(MAGEBLOOD_LEGACY_FIELD_PATTERN);
+      if (legacyFieldMatch) {
+        const key = MAGEBLOOD_LEGACY_VARIANTS[legacyFieldMatch[1]];
+        if (mod && key) {
+          legacies.push({ mod, key, title: text });
+        }
+        return;
+      }
 
       const legacyMatch = text.match(MAGEBLOOD_LEGACY_PATTERN);
       if (legacyMatch) {
-        const mod = valueSpan.closest<HTMLElement>(".item-mod");
         if (mod) {
           const name = legacyMatch[1].trim();
           legacies.push({
@@ -711,10 +759,13 @@ export class ItemResultsService {
       }
 
       const duplicateMatch = text.match(MAGEBLOOD_DUPLICATE_PATTERN);
-      if (duplicateMatch) {
-        const duplicateMod = valueSpan.closest<HTMLElement>(".item-mod");
-        if (duplicateMod) duplicateMods.push(duplicateMod);
-        duplicatePercent = Number.parseInt(duplicateMatch[1] || duplicateMatch[2], 10);
+      if (field === MAGEBLOOD_DUPLICATE_FIELD || duplicateMatch) {
+        if (mod) duplicateMods.push(mod);
+        const percentMatch = text.match(/(\d+)%/);
+        duplicatePercent = Number.parseInt(
+          percentMatch?.[1] || duplicateMatch?.[1] || duplicateMatch?.[2] || "0",
+          10
+        );
       }
     });
 
@@ -768,6 +819,11 @@ export class ItemResultsService {
     legacies: MagebloodLegacy[]
   ) {
     const content = row.querySelector<HTMLElement>(".item-popup__content") || row;
+    const flagsSeparator = content.querySelector<HTMLHRElement>('hr[name="flags"]');
+    if (flagsSeparator) {
+      return flagsSeparator;
+    }
+
     const corruptedLine = Array.from(content.children).find((child) =>
       /\b(?:corrupted|corrupto)\b/i.test(child.textContent || "")
     );
@@ -793,36 +849,46 @@ export class ItemResultsService {
     increasedEffect: number
   ) {
     const container = this.createMagebloodDiv(MAGEBLOOD_EXPLANATIONS_CLASS);
+    const locale = getMagebloodLegacyLocale();
+    const legacyTexts = MAGEBLOOD_LEGACY_TEXTS[locale] || MAGEBLOOD_LEGACY_TEXTS.en;
+    const baseLabel = getMagebloodLegacyBaseLabel(locale);
+    const effectLabel = getMagebloodLegacyEffectLabel(locale);
+
     Object.keys(counts).forEach((key) => {
       const titleText = displayTitles[key] || `Legacy of ${titleCaseLegacyName(key)}`;
       const effect = MAGEBLOOD_LEGACY_EFFECTS[key];
+      const templates = legacyTexts[key] || MAGEBLOOD_LEGACY_TEXTS.en[key];
       const block = document.createElement("div");
       const title = document.createElement("span");
       title.style.color = "var(--colour-augmented)";
       title.textContent = titleText;
       block.appendChild(title);
 
-      if (!effect) {
+      if (!effect || !templates) {
         block.appendChild(document.createElement("br"));
         block.appendChild(document.createTextNode("Effect not in the database yet."));
         container.appendChild(block);
         return;
       }
 
-      effect.stats.forEach(([base, suffix]) => {
+      effect.stats.forEach(([base], index) => {
+        const template = templates[index] || MAGEBLOOD_LEGACY_TEXTS.en[key]?.[index];
+        if (!template) return;
+
         const final = multiplier > 1.0001 ? Math.floor(base * multiplier) : base;
-        const value = formatLegacyStat(final, suffix);
+        const value = formatMagebloodLegacyLine(template, final);
+        const baseValue = formatMagebloodLegacyLine(template, base);
         const label = multiplier > 1.0001
-          ? `${value} (base ${compactLegacyStat(base, suffix)}, +${increasedEffect}% effect)`
+          ? `${value} (${baseLabel} ${baseValue}, +${increasedEffect}% ${effectLabel})`
           : value;
         block.appendChild(document.createElement("br"));
         block.appendChild(document.createTextNode(label));
       });
 
-      if (effect.note) {
+      templates.slice(effect.stats.length).forEach((line) => {
         block.appendChild(document.createElement("br"));
-        block.appendChild(document.createTextNode(effect.note));
-      }
+        block.appendChild(document.createTextNode(line));
+      });
 
       container.appendChild(block);
     });
