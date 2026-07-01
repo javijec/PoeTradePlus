@@ -364,7 +364,7 @@ export const englishTranslations: Record<string, TranslationValue> = {
     "bookmarks.confirmImport": "Confirm Import",
     "bookmarks.backupTitle": "Backup & Restore",
     "bookmarks.backupDescription":
-      "Save a file copy of your folders or restore one you exported earlier.",
+      "Save a portable file with folders, saved searches, settings, and extension preferences, or restore one you exported earlier.",
     "bookmarks.saveFile": "Save File",
     "bookmarks.restoreFile": "Restore From File",
     "bookmarks.folderCopyTitle": ({ title }) => `${title} (copy)`,

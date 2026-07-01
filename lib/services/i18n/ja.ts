@@ -117,6 +117,8 @@ export const japaneseTranslations: Record<string, TranslationValue> = {
   "bookmarks.emptyArchivedAction": "アクティブなフォルダーを表示",
   "bookmarks.confirmImport": "インポートを確認",
   "bookmarks.backupTitle": "バックアップと復元",
+  "bookmarks.backupDescription":
+    "フォルダー、保存済み検索、設定、拡張機能の設定を含むポータブルファイルを保存、または以前のファイルから復元します。",
   "bookmarks.saveFile": "ファイルを保存",
   "bookmarks.restoreFile": "ファイルから復元",
   "history.clear": "履歴を消去",

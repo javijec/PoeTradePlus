@@ -365,7 +365,7 @@ export const spanishTranslations: Record<string, TranslationValue> = {
     "bookmarks.confirmImport": "Confirmar importación",
     "bookmarks.backupTitle": "Respaldo y restauración",
     "bookmarks.backupDescription":
-      "Guardá una copia en archivo de tus carpetas o restaurá una que hayas exportado antes.",
+      "Guardá un archivo portable con carpetas, búsquedas, settings y preferencias de la extensión, o restaurá uno exportado antes.",
     "bookmarks.saveFile": "Guardar archivo",
     "bookmarks.restoreFile": "Restaurar desde archivo",
     "bookmarks.folderCopyTitle": ({ title }) => `${title} (copia)`,

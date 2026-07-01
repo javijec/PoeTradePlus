@@ -116,6 +116,8 @@ export const koreanTranslations: Record<string, TranslationValue> = {
   "bookmarks.emptyArchivedAction": "활성 폴더 표시",
   "bookmarks.confirmImport": "가져오기 확인",
   "bookmarks.backupTitle": "백업 및 복원",
+  "bookmarks.backupDescription":
+    "폴더, 저장된 검색, 설정, 확장 프로그램 환경설정을 담은 휴대용 파일을 저장하거나 이전 파일에서 복원합니다.",
   "bookmarks.saveFile": "파일 저장",
   "bookmarks.restoreFile": "파일에서 복원",
   "history.clear": "기록 지우기",

@@ -115,6 +115,8 @@ export const frenchTranslations: Record<string, TranslationValue> = {
   "bookmarks.emptyArchivedAction": "Afficher les dossiers actifs",
   "bookmarks.confirmImport": "Confirmer l’import",
   "bookmarks.backupTitle": "Sauvegarde et restauration",
+  "bookmarks.backupDescription":
+    "Enregistrez un fichier portable avec les dossiers, recherches sauvegardées, paramètres et préférences de l’extension, ou restaurez-en un précédent.",
   "bookmarks.saveFile": "Enregistrer le fichier",
   "bookmarks.restoreFile": "Restaurer depuis le fichier",
   "history.clear": "Effacer l’historique",

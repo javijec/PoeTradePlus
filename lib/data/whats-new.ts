@@ -98,6 +98,19 @@ const version112Polish: WhatsNewItem[] = [
   }
 ];
 
+const version113Items: WhatsNewItem[] = [
+  {
+    title: "Full extension backup",
+    description:
+      "Backup files now include saved folders, searches, global settings, PoE1/PoE2 result settings, and extension preferences in one portable JSON file."
+  },
+  {
+    title: "Old folder backups still restore",
+    description:
+      "The restore action still accepts older folder-only .txt exports, so existing backups remain usable."
+  }
+];
+
 const version110Features: WhatsNewItem[] = [
   {
     title: "Settings are now easier to navigate",
@@ -188,9 +201,18 @@ const version110Changes: WhatsNewItem[] = [
 ];
 
 export const latestWhatsNew: WhatsNewEntry = {
-  version: "1.1.2",
+  version: "1.1.3",
   date: "2026-06-30",
   sections: [
+    {
+      title: "1.1.3",
+      groups: [
+        {
+          titleKey: "whatsNew.section.features",
+          items: version113Items
+        }
+      ]
+    },
     {
       title: "1.1.2",
       groups: [
@@ -244,20 +266,65 @@ export const latestWhatsNew: WhatsNewEntry = {
 export const whatsNewEntries: WhatsNewEntry[] = [
   latestWhatsNew,
   {
-    version: "1.1.2",
+    version: "1.1.3",
     date: "2026-06-30",
     sections: [
       {
         titleKey: "whatsNew.section.features",
-        items: version112Features
+        items: version113Items
+      }
+    ]
+  },
+  {
+    version: "1.1.2",
+    date: "2026-06-30",
+    sections: [
+      {
+        title: "1.1.2",
+        groups: [
+          {
+            titleKey: "whatsNew.section.features",
+            items: version112Features
+          },
+          {
+            titleKey: "whatsNew.section.fixes",
+            items: version112Fixes
+          },
+          {
+            titleKey: "whatsNew.section.polish",
+            items: version112Polish
+          }
+        ]
       },
       {
-        titleKey: "whatsNew.section.fixes",
-        items: version112Fixes
+        title: "1.1.1",
+        groups: [
+          {
+            titleKey: "whatsNew.section.fixes",
+            items: version111Items.slice(0, 4)
+          },
+          {
+            titleKey: "whatsNew.section.polish",
+            items: version111Items.slice(4)
+          }
+        ]
       },
       {
-        titleKey: "whatsNew.section.polish",
-        items: version112Polish
+        title: "1.1.0",
+        groups: [
+          {
+            titleKey: "whatsNew.section.features",
+            items: version110Features
+          },
+          {
+            titleKey: "whatsNew.section.polish",
+            items: version110Changes
+          },
+          {
+            titleKey: "whatsNew.section.fixes",
+            items: version110Fixes
+          }
+        ]
       }
     ]
   },
@@ -266,12 +333,34 @@ export const whatsNewEntries: WhatsNewEntry[] = [
     date: "2026-06-27",
     sections: [
       {
-        titleKey: "whatsNew.section.fixes",
-        items: version111Items.slice(0, 4)
+        title: "1.1.1",
+        groups: [
+          {
+            titleKey: "whatsNew.section.fixes",
+            items: version111Items.slice(0, 4)
+          },
+          {
+            titleKey: "whatsNew.section.polish",
+            items: version111Items.slice(4)
+          }
+        ]
       },
       {
-        titleKey: "whatsNew.section.polish",
-        items: version111Items.slice(4)
+        title: "1.1.0",
+        groups: [
+          {
+            titleKey: "whatsNew.section.features",
+            items: version110Features
+          },
+          {
+            titleKey: "whatsNew.section.polish",
+            items: version110Changes
+          },
+          {
+            titleKey: "whatsNew.section.fixes",
+            items: version110Fixes
+          }
+        ]
       }
     ]
   },

@@ -116,6 +116,8 @@ export const portugueseTranslations: Record<string, TranslationValue> = {
   "bookmarks.emptyArchivedAction": "Mostrar pastas ativas",
   "bookmarks.confirmImport": "Confirmar importação",
   "bookmarks.backupTitle": "Backup e restauração",
+  "bookmarks.backupDescription":
+    "Salve um arquivo portátil com pastas, buscas salvas, configurações e preferências da extensão, ou restaure um arquivo anterior.",
   "bookmarks.saveFile": "Salvar arquivo",
   "bookmarks.restoreFile": "Restaurar do arquivo",
   "history.clear": "Limpar histórico",

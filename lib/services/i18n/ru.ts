@@ -111,6 +111,8 @@ export const russianTranslations: Record<string, TranslationValue> = {
   "bookmarks.emptyArchivedAction": "Показать активные папки",
   "bookmarks.confirmImport": "Подтвердить импорт",
   "bookmarks.backupTitle": "Резервное копирование и восстановление",
+  "bookmarks.backupDescription":
+    "Сохраните переносимый файл с папками, сохранёнными поисками, настройками и параметрами расширения или восстановите прежний файл.",
   "bookmarks.saveFile": "Сохранить файл",
   "bookmarks.restoreFile": "Восстановить из файла",
   "history.clear": "Очистить историю",

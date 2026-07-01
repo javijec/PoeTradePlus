@@ -111,6 +111,8 @@ export const thaiTranslations: Record<string, TranslationValue> = {
   "bookmarks.emptyArchivedAction": "แสดงโฟลเดอร์ที่ใช้งานอยู่",
   "bookmarks.confirmImport": "ยืนยันการนำเข้า",
   "bookmarks.backupTitle": "สำรองและกู้คืน",
+  "bookmarks.backupDescription":
+    "บันทึกไฟล์พกพาที่มีโฟลเดอร์ การค้นหาที่บันทึกไว้ การตั้งค่า และค่ากำหนดของส่วนขยาย หรือกู้คืนจากไฟล์เดิม",
   "bookmarks.saveFile": "บันทึกไฟล์",
   "bookmarks.restoreFile": "กู้คืนจากไฟล์",
   "history.clear": "ล้างประวัติ",

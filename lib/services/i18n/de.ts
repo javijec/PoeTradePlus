@@ -113,6 +113,8 @@ export const germanTranslations: Record<string, TranslationValue> = {
   "bookmarks.emptyArchivedAction": "Aktive Ordner anzeigen",
   "bookmarks.confirmImport": "Import bestätigen",
   "bookmarks.backupTitle": "Backup & Wiederherstellung",
+  "bookmarks.backupDescription":
+    "Speichere eine portable Datei mit Ordnern, gespeicherten Suchen, Einstellungen und Erweiterungsoptionen oder stelle eine frühere Datei wieder her.",
   "bookmarks.saveFile": "Datei speichern",
   "bookmarks.restoreFile": "Aus Datei wiederherstellen",
   "history.clear": "Verlauf löschen",
