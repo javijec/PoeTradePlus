@@ -237,6 +237,9 @@ export const spanishTranslations: Record<string, TranslationValue> = {
     "settings.historyTitle": "Historial",
     "settings.historyDescription":
       "Mostrá u ocultá la pestaña Historial que guarda tus búsquedas abiertas recientemente.",
+    "settings.experimentalTabTitle": "Pestaña Experimental",
+    "settings.experimentalTabDescription":
+      "Mostrá u ocultá la pestaña Experimental del panel. Solo aparece en dev.",
     "settings.finerFiltersTitle": "Agregar a filtros",
     "settings.finerFiltersDescription":
       "Mostrá u ocultá el panel Agregar a filtros al final de la barra lateral.",

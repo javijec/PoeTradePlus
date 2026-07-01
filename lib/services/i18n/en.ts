@@ -237,6 +237,9 @@ export const englishTranslations: Record<string, TranslationValue> = {
     "settings.historyTitle": "History",
     "settings.historyDescription":
       "Show or hide the history tab that stores your recently opened searches.",
+    "settings.experimentalTabTitle": "Experimental tab",
+    "settings.experimentalTabDescription":
+      "Show or hide the dev-only Experimental tab in the sidebar.",
     "settings.finerFiltersTitle": "Add To Filters",
     "settings.finerFiltersDescription":
       "Show or hide the Add to Filters panel at the bottom of the sidebar.",

@@ -41,6 +41,7 @@
   let { onOpenTutorial = () => {}, tutorialStep = null }: Props = $props();
 
   const DEFAULT_SIDEBAR_WIDTH = 450;
+  const isDevBuild = import.meta.env.DEV;
   type SettingsTab = "interface" | "sidebar" | "results" | "bookmarks";
   let activeTab = $state<SettingsTab>("interface");
 
@@ -155,6 +156,12 @@
 
   async function handleHistoryChange(showHistory: boolean) {
     if (!(await settings.updateHistoryVisibility(showHistory))) {
+      flashMessages.alert(translate($languageStore, "settings.saveFailed"));
+    }
+  }
+
+  async function handleExperimentalTabChange(showExperimentalTab: boolean) {
+    if (!(await settings.updateExperimentalTabVisibility(showExperimentalTab))) {
       flashMessages.alert(translate($languageStore, "settings.saveFailed"));
     }
   }
@@ -499,6 +506,21 @@
               onToggle={() => handleHistoryChange(!$settings.showHistory)}
             />
           </div>
+
+          {#if isDevBuild}
+            <div class="settings-row">
+              <div class="settings-row__copy">
+                <div class="settings-row__title">{translate($languageStore, "settings.experimentalTabTitle")}</div>
+                <div class="settings-row__description">{translate($languageStore, "settings.experimentalTabDescription")}</div>
+              </div>
+              <ToggleRow
+                checked={$settings.showExperimentalTab}
+                label={translate($languageStore, "settings.experimentalTabTitle")}
+                stateLabel={toggleSwitchLabel($settings.showExperimentalTab)}
+                onToggle={() => handleExperimentalTabChange(!$settings.showExperimentalTab)}
+              />
+            </div>
+          {/if}
 
         </div>
       </section>

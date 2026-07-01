@@ -328,6 +328,12 @@ import Experimental from "./pages/Experimental.svelte";
     }
   });
 
+  $effect(() => {
+    if ((!isDevBuild || !$settings.showExperimentalTab) && currentPage === 'experimental') {
+      currentPage = 'bookmarks';
+    }
+  });
+
   const currentLocation = tradeLocationService.locationStore;
   let minimizedStorageKey = $derived(`${MINIMIZED_STORAGE_KEY}-${$currentLocation.version}`);
   $effect(() => {
@@ -465,7 +471,7 @@ import Experimental from "./pages/Experimental.svelte";
         <span class="nav-item__icon" aria-hidden="true">{@html navIcons.settings}</span>
         <span class="nav-item__label">{translate($languageStore, "layout.nav.settings")}</span>
     </button>
-    {#if isDevBuild}
+    {#if isDevBuild && $settings.showExperimentalTab}
       <button
           class="nav-item {currentPage === 'experimental' ? 'is-active' : ''}"
           title={translate($languageStore, "layout.nav.experimental")}
@@ -511,7 +517,7 @@ import Experimental from "./pages/Experimental.svelte";
         <Settings
           onOpenTutorial={openOnboarding}
           tutorialStep={showOnboarding ? onboardingCurrentStepId : null} />
-    {:else if currentPage === 'experimental' && isDevBuild}
+    {:else if currentPage === 'experimental' && isDevBuild && $settings.showExperimentalTab}
         <Experimental />
     {:else if currentPage === 'about'}
         <About onOpenWhatsNew={openWhatsNew} />

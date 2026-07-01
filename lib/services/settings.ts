@@ -23,12 +23,14 @@ export interface AppSettings extends VersionSettings {
   sidebarSide: SidebarSide;
   sidebarWidth: number;
   language: AppLanguage;
+  showExperimentalTab: boolean;
 }
 
 interface GlobalSettings {
   sidebarSide: SidebarSide;
   sidebarWidth: number;
   language: AppLanguage;
+  showExperimentalTab: boolean;
 }
 
 const GLOBAL_SETTINGS_KEY = 'app-settings';
@@ -37,7 +39,8 @@ const versionSettingsKey = (version: TradeSiteVersion) => `app-settings-poe${ver
 const DEFAULT_GLOBAL_SETTINGS: GlobalSettings = {
   sidebarSide: 'right',
   sidebarWidth: 360,
-  language: 'en'
+  language: 'en',
+  showExperimentalTab: true
 };
 
 const DEFAULT_VERSION_SETTINGS: VersionSettings = {
@@ -154,7 +157,8 @@ async function load() {
   globalSettings = {
     sidebarSide: stored?.sidebarSide ?? DEFAULT_GLOBAL_SETTINGS.sidebarSide,
     sidebarWidth: stored?.sidebarWidth ?? DEFAULT_GLOBAL_SETTINGS.sidebarWidth,
-    language: stored?.language ?? DEFAULT_GLOBAL_SETTINGS.language
+    language: stored?.language ?? DEFAULT_GLOBAL_SETTINGS.language,
+    showExperimentalTab: stored?.showExperimentalTab ?? DEFAULT_GLOBAL_SETTINGS.showExperimentalTab
   };
 
   const [poe1Settings, poe2Settings] = await Promise.all([
@@ -240,6 +244,9 @@ export const settings = {
   },
   async updateSidebarWidth(sidebarWidth: number) {
     return saveGlobal({ ...globalSettings, sidebarWidth });
+  },
+  async updateExperimentalTabVisibility(showExperimentalTab: boolean) {
+    return saveGlobal({ ...globalSettings, showExperimentalTab });
   },
   async updateLanguage(language: AppLanguage) {
     const saved = await saveGlobal({ ...globalSettings, language });
