@@ -120,6 +120,32 @@ export const portugueseTranslations: Record<string, TranslationValue> = {
     "Salve um arquivo portátil com pastas, buscas salvas, configurações e preferências da extensão, ou restaure um arquivo anterior.",
   "bookmarks.saveFile": "Salvar arquivo",
   "bookmarks.restoreFile": "Restaurar do arquivo",
+  "bookmarks.googleSyncTitle": "Sincronização com Google Drive",
+  "bookmarks.googleSyncDescription":
+    "Use sua conta Google para mover pastas, buscas salvas, configurações e preferências entre Chrome, Firefox e navegadores Chromium.",
+  "bookmarks.googleSyncPrivacy":
+    "Os dados ficam apenas na pasta privada de dados de app do Google Drive. Poe Trade Plus não usa servidor próprio.",
+  "bookmarks.googleSyncUpload": "Enviar ao Google",
+  "bookmarks.googleSyncRestore": "Restaurar do Google",
+  "bookmarks.googleSyncRestoreConfirm":
+    "Restaurar o backup do Google Drive? Isso substitui as pastas, buscas salvas, configurações e preferências atuais do Poe Trade Plus neste navegador.",
+  "bookmarks.googleSyncWorking": "Sincronizando...",
+  "bookmarks.googleSyncUploaded": "Backup enviado ao Google Drive.",
+  "bookmarks.googleSyncRestored": "Backup restaurado do Google Drive.",
+  "bookmarks.googleSyncNotConfigured":
+    "A sincronização com Google Drive precisa de VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID antes de ser usada nesta build.",
+  "bookmarks.googleSyncAuthUnavailable":
+    "Este navegador não expõe a API de identidade de extensões agora.",
+  "bookmarks.googleSyncCancelled": "O login do Google foi cancelado.",
+  "bookmarks.googleSyncMissingBackup":
+    "Nenhum backup do Poe Trade Plus foi encontrado nesta conta Google.",
+  "bookmarks.googleSyncFailed": "A sincronização com Google Drive falhou. Tente novamente.",
+  "bookmarks.googleSyncSetupHint":
+    "Nota da build experimental: defina VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID para habilitar a sincronização com Google Drive.",
+  "bookmarks.googleSyncCopyRedirect": "Copiar URL de redirecionamento OAuth",
+  "bookmarks.googleSyncRedirectCopied": "URL de redirecionamento OAuth copiada.",
+  "bookmarks.googleSyncRedirectCopyFailed":
+    "Não foi possível copiar a URL de redirecionamento OAuth.",
   "history.clear": "Limpar histórico",
   "history.cleared": "Histórico limpo!",
   "history.empty": ({ version }) =>

@@ -115,6 +115,32 @@ export const thaiTranslations: Record<string, TranslationValue> = {
     "บันทึกไฟล์พกพาที่มีโฟลเดอร์ การค้นหาที่บันทึกไว้ การตั้งค่า และค่ากำหนดของส่วนขยาย หรือกู้คืนจากไฟล์เดิม",
   "bookmarks.saveFile": "บันทึกไฟล์",
   "bookmarks.restoreFile": "กู้คืนจากไฟล์",
+  "bookmarks.googleSyncTitle": "ซิงค์กับ Google Drive",
+  "bookmarks.googleSyncDescription":
+    "ใช้บัญชี Google เพื่อย้ายโฟลเดอร์ การค้นหาที่บันทึก การตั้งค่า และค่ากำหนดระหว่าง Chrome, Firefox และเบราว์เซอร์ Chromium",
+  "bookmarks.googleSyncPrivacy":
+    "ข้อมูลจะถูกเก็บเฉพาะในโฟลเดอร์ข้อมูลแอปส่วนตัวของ Google Drive เท่านั้น Poe Trade Plus ไม่ใช้เซิร์ฟเวอร์ของตัวเอง",
+  "bookmarks.googleSyncUpload": "อัปโหลดไป Google",
+  "bookmarks.googleSyncRestore": "กู้คืนจาก Google",
+  "bookmarks.googleSyncRestoreConfirm":
+    "กู้คืนข้อมูลสำรองจาก Google Drive หรือไม่ การทำเช่นนี้จะแทนที่โฟลเดอร์ การค้นหาที่บันทึก การตั้งค่า และค่ากำหนด Poe Trade Plus ปัจจุบันในเบราว์เซอร์นี้",
+  "bookmarks.googleSyncWorking": "กำลังซิงค์...",
+  "bookmarks.googleSyncUploaded": "อัปโหลดข้อมูลสำรองไปยัง Google Drive แล้ว",
+  "bookmarks.googleSyncRestored": "กู้คืนข้อมูลสำรองจาก Google Drive แล้ว",
+  "bookmarks.googleSyncNotConfigured":
+    "การซิงค์ Google Drive ต้องมี VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID ก่อนจึงจะใช้ build นี้ได้",
+  "bookmarks.googleSyncAuthUnavailable":
+    "เบราว์เซอร์นี้ยังไม่เปิด API identity ของส่วนขยายในตอนนี้",
+  "bookmarks.googleSyncCancelled": "ยกเลิกการเข้าสู่ระบบ Google แล้ว",
+  "bookmarks.googleSyncMissingBackup":
+    "ไม่พบข้อมูลสำรอง Poe Trade Plus ในบัญชี Google นี้",
+  "bookmarks.googleSyncFailed": "ซิงค์กับ Google Drive ไม่สำเร็จ โปรดลองอีกครั้ง",
+  "bookmarks.googleSyncSetupHint":
+    "หมายเหตุ build ทดลอง: ตั้งค่า VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID เพื่อเปิดใช้การซิงค์ Google Drive",
+  "bookmarks.googleSyncCopyRedirect": "คัดลอก OAuth Redirect URL",
+  "bookmarks.googleSyncRedirectCopied": "คัดลอก OAuth Redirect URL แล้ว",
+  "bookmarks.googleSyncRedirectCopyFailed":
+    "ไม่สามารถคัดลอก OAuth Redirect URL ได้",
   "history.clear": "ล้างประวัติ",
   "history.cleared": "ล้างประวัติแล้ว!",
   "history.empty": ({ version }) => `ไม่มีประวัติสำหรับ PoE ${version}`,

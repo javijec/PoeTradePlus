@@ -120,6 +120,32 @@ export const koreanTranslations: Record<string, TranslationValue> = {
     "폴더, 저장된 검색, 설정, 확장 프로그램 환경설정을 담은 휴대용 파일을 저장하거나 이전 파일에서 복원합니다.",
   "bookmarks.saveFile": "파일 저장",
   "bookmarks.restoreFile": "파일에서 복원",
+  "bookmarks.googleSyncTitle": "Google Drive 동기화",
+  "bookmarks.googleSyncDescription":
+    "Google 계정으로 폴더, 저장된 검색, 설정, 환경설정을 Chrome, Firefox, Chromium 기반 브라우저 간에 이동합니다.",
+  "bookmarks.googleSyncPrivacy":
+    "데이터는 Google Drive의 비공개 앱 데이터 폴더에만 저장됩니다. Poe Trade Plus는 자체 서버를 사용하지 않습니다.",
+  "bookmarks.googleSyncUpload": "Google에 업로드",
+  "bookmarks.googleSyncRestore": "Google에서 복원",
+  "bookmarks.googleSyncRestoreConfirm":
+    "Google Drive 백업을 복원할까요? 이 브라우저의 현재 Poe Trade Plus 폴더, 저장된 검색, 설정, 환경설정이 대체됩니다.",
+  "bookmarks.googleSyncWorking": "동기화 중...",
+  "bookmarks.googleSyncUploaded": "백업을 Google Drive에 업로드했습니다.",
+  "bookmarks.googleSyncRestored": "백업을 Google Drive에서 복원했습니다.",
+  "bookmarks.googleSyncNotConfigured":
+    "이 빌드에서 Google Drive 동기화를 사용하려면 VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID가 필요합니다.",
+  "bookmarks.googleSyncAuthUnavailable":
+    "이 브라우저는 현재 확장 프로그램 identity API를 제공하지 않습니다.",
+  "bookmarks.googleSyncCancelled": "Google 로그인이 취소되었습니다.",
+  "bookmarks.googleSyncMissingBackup":
+    "이 Google 계정에서 Poe Trade Plus 백업을 찾을 수 없습니다.",
+  "bookmarks.googleSyncFailed": "Google Drive 동기화에 실패했습니다. 다시 시도하세요.",
+  "bookmarks.googleSyncSetupHint":
+    "실험 빌드 참고: Google Drive 동기화를 활성화하려면 VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID를 설정하세요.",
+  "bookmarks.googleSyncCopyRedirect": "OAuth 리디렉션 URL 복사",
+  "bookmarks.googleSyncRedirectCopied": "OAuth 리디렉션 URL을 복사했습니다.",
+  "bookmarks.googleSyncRedirectCopyFailed":
+    "OAuth 리디렉션 URL을 복사할 수 없습니다.",
   "history.clear": "기록 지우기",
   "history.cleared": "기록을 지웠습니다!",
   "history.empty": ({ version }) => `PoE ${version}의 기록이 비어 있습니다.`,

@@ -371,6 +371,33 @@ export const spanishTranslations: Record<string, TranslationValue> = {
       "Guardá un archivo portable con carpetas, búsquedas, settings y preferencias de la extensión, o restaurá uno exportado antes.",
     "bookmarks.saveFile": "Guardar archivo",
     "bookmarks.restoreFile": "Restaurar desde archivo",
+    "bookmarks.googleSyncTitle": "Sincronización con Google Drive",
+    "bookmarks.googleSyncDescription":
+      "Usá tu cuenta de Google para mover carpetas, búsquedas, ajustes y preferencias entre Chrome, Firefox y navegadores Chromium.",
+    "bookmarks.googleSyncPrivacy":
+      "Los datos se guardan solo en la carpeta privada de datos de app de Google Drive. Poe Trade Plus no usa servidor propio.",
+    "bookmarks.googleSyncUpload": "Subir a Google",
+    "bookmarks.googleSyncRestore": "Restaurar desde Google",
+    "bookmarks.googleSyncRestoreConfirm":
+      "¿Restaurar el respaldo de Google Drive? Esto reemplaza las carpetas, búsquedas, ajustes y preferencias actuales de Poe Trade Plus en este navegador.",
+    "bookmarks.googleSyncWorking": "Sincronizando...",
+    "bookmarks.googleSyncUploaded": "Respaldo subido a Google Drive.",
+    "bookmarks.googleSyncRestored": "Respaldo restaurado desde Google Drive.",
+    "bookmarks.googleSyncNotConfigured":
+      "La sincronización con Google Drive necesita VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID antes de poder usarse en esta build.",
+    "bookmarks.googleSyncAuthUnavailable":
+      "Este navegador no expone ahora mismo la API de identidad de extensiones.",
+    "bookmarks.googleSyncCancelled": "Se canceló el inicio de sesión con Google.",
+    "bookmarks.googleSyncMissingBackup":
+      "No se encontró un respaldo de Poe Trade Plus en esta cuenta de Google.",
+    "bookmarks.googleSyncFailed":
+      "Falló la sincronización con Google Drive. Probá de nuevo.",
+    "bookmarks.googleSyncSetupHint":
+      "Nota de build experimental: definí VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID para habilitar la sincronización con Google Drive.",
+    "bookmarks.googleSyncCopyRedirect": "Copiar URL de redirección OAuth",
+    "bookmarks.googleSyncRedirectCopied": "URL de redirección OAuth copiada.",
+    "bookmarks.googleSyncRedirectCopyFailed":
+      "No se pudo copiar la URL de redirección OAuth.",
     "bookmarks.folderCopyTitle": ({ title }) => `${title} (copia)`,
     "confirm.cancel": "Cancelar",
     "confirm.delete": "Eliminar",

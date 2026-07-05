@@ -117,6 +117,32 @@ export const germanTranslations: Record<string, TranslationValue> = {
     "Speichere eine portable Datei mit Ordnern, gespeicherten Suchen, Einstellungen und Erweiterungsoptionen oder stelle eine frühere Datei wieder her.",
   "bookmarks.saveFile": "Datei speichern",
   "bookmarks.restoreFile": "Aus Datei wiederherstellen",
+  "bookmarks.googleSyncTitle": "Google Drive Sync",
+  "bookmarks.googleSyncDescription":
+    "Nutze dein Google-Konto, um Ordner, gespeicherte Suchen, Einstellungen und Optionen zwischen Chrome, Firefox und Chromium-Browsern zu bewegen.",
+  "bookmarks.googleSyncPrivacy":
+    "Daten werden nur im privaten App-Datenordner deines Google Drive gespeichert. Poe Trade Plus nutzt keinen eigenen Server.",
+  "bookmarks.googleSyncUpload": "Zu Google hochladen",
+  "bookmarks.googleSyncRestore": "Von Google wiederherstellen",
+  "bookmarks.googleSyncRestoreConfirm":
+    "Google Drive Backup wiederherstellen? Dadurch werden die aktuellen Poe Trade Plus Ordner, gespeicherten Suchen, Einstellungen und Optionen in diesem Browser ersetzt.",
+  "bookmarks.googleSyncWorking": "Synchronisiere...",
+  "bookmarks.googleSyncUploaded": "Backup wurde zu Google Drive hochgeladen.",
+  "bookmarks.googleSyncRestored": "Backup wurde aus Google Drive wiederhergestellt.",
+  "bookmarks.googleSyncNotConfigured":
+    "Google Drive Sync benötigt VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID, bevor diese Build es verwenden kann.",
+  "bookmarks.googleSyncAuthUnavailable":
+    "Dieser Browser stellt die Identity-API für Erweiterungen gerade nicht bereit.",
+  "bookmarks.googleSyncCancelled": "Google-Anmeldung wurde abgebrochen.",
+  "bookmarks.googleSyncMissingBackup":
+    "In diesem Google-Konto wurde kein Poe Trade Plus Backup gefunden.",
+  "bookmarks.googleSyncFailed": "Google Drive Sync ist fehlgeschlagen. Bitte erneut versuchen.",
+  "bookmarks.googleSyncSetupHint":
+    "Hinweis zur experimentellen Build: Setze VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID, um Google Drive Sync zu aktivieren.",
+  "bookmarks.googleSyncCopyRedirect": "OAuth-Redirect-URL kopieren",
+  "bookmarks.googleSyncRedirectCopied": "OAuth-Redirect-URL kopiert.",
+  "bookmarks.googleSyncRedirectCopyFailed":
+    "OAuth-Redirect-URL konnte nicht kopiert werden.",
   "history.clear": "Verlauf löschen",
   "history.cleared": "Verlauf gelöscht!",
   "history.empty": ({ version }) => `Der Verlauf für PoE ${version} ist leer.`,

@@ -119,6 +119,32 @@ export const frenchTranslations: Record<string, TranslationValue> = {
     "Enregistrez un fichier portable avec les dossiers, recherches sauvegardées, paramètres et préférences de l’extension, ou restaurez-en un précédent.",
   "bookmarks.saveFile": "Enregistrer le fichier",
   "bookmarks.restoreFile": "Restaurer depuis le fichier",
+  "bookmarks.googleSyncTitle": "Synchronisation Google Drive",
+  "bookmarks.googleSyncDescription":
+    "Utilisez votre compte Google pour déplacer dossiers, recherches sauvegardées, réglages et préférences entre Chrome, Firefox et les navigateurs Chromium.",
+  "bookmarks.googleSyncPrivacy":
+    "Les données restent uniquement dans le dossier privé de données d’application Google Drive. Poe Trade Plus n’utilise pas de serveur propre.",
+  "bookmarks.googleSyncUpload": "Envoyer vers Google",
+  "bookmarks.googleSyncRestore": "Restaurer depuis Google",
+  "bookmarks.googleSyncRestoreConfirm":
+    "Restaurer la sauvegarde Google Drive ? Cela remplace les dossiers, recherches sauvegardées, réglages et préférences Poe Trade Plus actuels dans ce navigateur.",
+  "bookmarks.googleSyncWorking": "Synchronisation...",
+  "bookmarks.googleSyncUploaded": "Sauvegarde envoyée vers Google Drive.",
+  "bookmarks.googleSyncRestored": "Sauvegarde restaurée depuis Google Drive.",
+  "bookmarks.googleSyncNotConfigured":
+    "La synchronisation Google Drive a besoin de VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID avant d’être utilisable dans ce build.",
+  "bookmarks.googleSyncAuthUnavailable":
+    "Ce navigateur n’expose pas l’API d’identité des extensions pour le moment.",
+  "bookmarks.googleSyncCancelled": "La connexion Google a été annulée.",
+  "bookmarks.googleSyncMissingBackup":
+    "Aucune sauvegarde Poe Trade Plus n’a été trouvée dans ce compte Google.",
+  "bookmarks.googleSyncFailed": "La synchronisation Google Drive a échoué. Réessayez.",
+  "bookmarks.googleSyncSetupHint":
+    "Note de build expérimentale : définissez VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID pour activer la synchronisation Google Drive.",
+  "bookmarks.googleSyncCopyRedirect": "Copier l’URL de redirection OAuth",
+  "bookmarks.googleSyncRedirectCopied": "URL de redirection OAuth copiée.",
+  "bookmarks.googleSyncRedirectCopyFailed":
+    "Impossible de copier l’URL de redirection OAuth.",
   "history.clear": "Effacer l’historique",
   "history.cleared": "Historique effacé !",
   "history.empty": ({ version }) =>

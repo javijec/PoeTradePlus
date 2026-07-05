@@ -121,6 +121,32 @@ export const japaneseTranslations: Record<string, TranslationValue> = {
     "フォルダー、保存済み検索、設定、拡張機能の設定を含むポータブルファイルを保存、または以前のファイルから復元します。",
   "bookmarks.saveFile": "ファイルを保存",
   "bookmarks.restoreFile": "ファイルから復元",
+  "bookmarks.googleSyncTitle": "Google Drive 同期",
+  "bookmarks.googleSyncDescription":
+    "Google アカウントを使って、フォルダー、保存済み検索、設定、環境設定を Chrome、Firefox、Chromium 系ブラウザー間で移動します。",
+  "bookmarks.googleSyncPrivacy":
+    "データは Google Drive の非公開アプリデータフォルダーにのみ保存されます。Poe Trade Plus は独自サーバーを使用しません。",
+  "bookmarks.googleSyncUpload": "Google にアップロード",
+  "bookmarks.googleSyncRestore": "Google から復元",
+  "bookmarks.googleSyncRestoreConfirm":
+    "Google Drive のバックアップを復元しますか？このブラウザーの現在の Poe Trade Plus フォルダー、保存済み検索、設定、環境設定が置き換えられます。",
+  "bookmarks.googleSyncWorking": "同期中...",
+  "bookmarks.googleSyncUploaded": "バックアップを Google Drive にアップロードしました。",
+  "bookmarks.googleSyncRestored": "バックアップを Google Drive から復元しました。",
+  "bookmarks.googleSyncNotConfigured":
+    "このビルドで Google Drive 同期を使うには VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID が必要です。",
+  "bookmarks.googleSyncAuthUnavailable":
+    "このブラウザーでは現在、拡張機能の identity API を利用できません。",
+  "bookmarks.googleSyncCancelled": "Google ログインがキャンセルされました。",
+  "bookmarks.googleSyncMissingBackup":
+    "この Google アカウントに Poe Trade Plus のバックアップが見つかりません。",
+  "bookmarks.googleSyncFailed": "Google Drive 同期に失敗しました。もう一度お試しください。",
+  "bookmarks.googleSyncSetupHint":
+    "実験ビルドの注意: Google Drive 同期を有効にするには VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID を設定してください。",
+  "bookmarks.googleSyncCopyRedirect": "OAuth リダイレクト URL をコピー",
+  "bookmarks.googleSyncRedirectCopied": "OAuth リダイレクト URL をコピーしました。",
+  "bookmarks.googleSyncRedirectCopyFailed":
+    "OAuth リダイレクト URL をコピーできませんでした。",
   "history.clear": "履歴を消去",
   "history.cleared": "履歴を消去しました！",
   "history.empty": ({ version }) => `PoE ${version} の履歴は空です。`,

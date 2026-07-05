@@ -115,6 +115,32 @@ export const russianTranslations: Record<string, TranslationValue> = {
     "Сохраните переносимый файл с папками, сохранёнными поисками, настройками и параметрами расширения или восстановите прежний файл.",
   "bookmarks.saveFile": "Сохранить файл",
   "bookmarks.restoreFile": "Восстановить из файла",
+  "bookmarks.googleSyncTitle": "Синхронизация с Google Drive",
+  "bookmarks.googleSyncDescription":
+    "Используйте аккаунт Google, чтобы переносить папки, сохранённые поиски, настройки и предпочтения между Chrome, Firefox и браузерами Chromium.",
+  "bookmarks.googleSyncPrivacy":
+    "Данные хранятся только в приватной папке данных приложения Google Drive. Poe Trade Plus не использует собственный сервер.",
+  "bookmarks.googleSyncUpload": "Загрузить в Google",
+  "bookmarks.googleSyncRestore": "Восстановить из Google",
+  "bookmarks.googleSyncRestoreConfirm":
+    "Восстановить резервную копию из Google Drive? Это заменит текущие папки, сохранённые поиски, настройки и предпочтения Poe Trade Plus в этом браузере.",
+  "bookmarks.googleSyncWorking": "Синхронизация...",
+  "bookmarks.googleSyncUploaded": "Резервная копия загружена в Google Drive.",
+  "bookmarks.googleSyncRestored": "Резервная копия восстановлена из Google Drive.",
+  "bookmarks.googleSyncNotConfigured":
+    "Для синхронизации с Google Drive нужен VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID в этой сборке.",
+  "bookmarks.googleSyncAuthUnavailable":
+    "Этот браузер сейчас не предоставляет API идентификации расширений.",
+  "bookmarks.googleSyncCancelled": "Вход через Google был отменён.",
+  "bookmarks.googleSyncMissingBackup":
+    "В этом аккаунте Google не найдено резервной копии Poe Trade Plus.",
+  "bookmarks.googleSyncFailed": "Синхронизация с Google Drive не удалась. Попробуйте снова.",
+  "bookmarks.googleSyncSetupHint":
+    "Примечание для экспериментальной сборки: задайте VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID, чтобы включить синхронизацию с Google Drive.",
+  "bookmarks.googleSyncCopyRedirect": "Скопировать OAuth Redirect URL",
+  "bookmarks.googleSyncRedirectCopied": "OAuth Redirect URL скопирован.",
+  "bookmarks.googleSyncRedirectCopyFailed":
+    "Не удалось скопировать OAuth Redirect URL.",
   "history.clear": "Очистить историю",
   "history.cleared": "История очищена!",
   "history.empty": ({ version }) => `История пуста для PoE ${version}.`,

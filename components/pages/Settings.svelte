@@ -8,10 +8,12 @@
     poe2CopyButtonSetting
   } from "../../lib/services/experimental";
   import { flashMessages } from "../../lib/services/flash";
+  import { googleDriveSyncService, type GoogleDriveSyncResult } from "../../lib/services/google-drive-sync";
   import { itemResultsService } from "../../lib/services/item-results";
   import { settings, type BookmarkTradeActionId, type QuickFiltersPlacement, type SidebarSide } from "../../lib/services/settings";
   import { tradeLocationService } from "../../lib/services/trade-location";
   import type { BookmarksTradeStruct } from "../../lib/types/bookmarks";
+  import { copyToClipboard } from "../../lib/utilities/copy-to-clipboard";
   import { normalizeIcon } from "../../lib/utilities/icons";
   import Button from "../Button.svelte";
   import TradeActionsMenu from "../TradeActionsMenu.svelte";
@@ -106,6 +108,7 @@
 
   let isLanguageMenuOpen = $state(false);
   let isRefreshingEquivalentRatios = $state(false);
+  let isGoogleDriveSyncBusy = $state(false);
   let languageSelectorEl: HTMLDivElement | null = $state(null);
 
   async function handleSideChange(side: SidebarSide) {
@@ -249,6 +252,70 @@
       input.value = "";
     };
     reader.readAsText(file);
+  }
+
+  function googleDriveSyncErrorKey(result: GoogleDriveSyncResult) {
+    if (result.reason === "not-configured") return "bookmarks.googleSyncNotConfigured";
+    if (result.reason === "auth-unavailable") return "bookmarks.googleSyncAuthUnavailable";
+    if (result.reason === "auth-cancelled") return "bookmarks.googleSyncCancelled";
+    if (result.reason === "invalid-backup") return "bookmarks.googleSyncMissingBackup";
+    return "bookmarks.googleSyncFailed";
+  }
+
+  async function uploadGoogleDriveBackup() {
+    if (isGoogleDriveSyncBusy) return;
+
+    isGoogleDriveSyncBusy = true;
+    try {
+      const dataString = await extensionBackupService.generateBackupDataString();
+      const result = await googleDriveSyncService.uploadBackup(dataString);
+      if (result.success) {
+        flashMessages.success(translate($languageStore, "bookmarks.googleSyncUploaded"));
+      } else {
+        flashMessages.alert(translate($languageStore, googleDriveSyncErrorKey(result)));
+      }
+    } finally {
+      isGoogleDriveSyncBusy = false;
+    }
+  }
+
+  async function restoreGoogleDriveBackup() {
+    if (isGoogleDriveSyncBusy) return;
+    if (!confirm(translate($languageStore, "bookmarks.googleSyncRestoreConfirm"))) return;
+
+    isGoogleDriveSyncBusy = true;
+    try {
+      const result = await googleDriveSyncService.downloadBackup();
+      if (result.success && result.dataString) {
+        const restored = await extensionBackupService.restoreFromDataString(result.dataString);
+        if (!restored) {
+          flashMessages.alert(translate($languageStore, "bookmarks.googleSyncMissingBackup"));
+          return;
+        }
+        await settings.load();
+        experimentalSettings.useVersion(tradeLocationService.current.version);
+        flashMessages.success(translate($languageStore, "bookmarks.googleSyncRestored"));
+      } else {
+        flashMessages.alert(translate($languageStore, googleDriveSyncErrorKey(result)));
+      }
+    } finally {
+      isGoogleDriveSyncBusy = false;
+    }
+  }
+
+  async function copyGoogleDriveRedirectUrl() {
+    const result = await googleDriveSyncService.getRedirectUrl();
+    if (!result.success || !result.redirectUrl) {
+      flashMessages.alert(translate($languageStore, googleDriveSyncErrorKey(result)));
+      return;
+    }
+
+    try {
+      await copyToClipboard(result.redirectUrl);
+      flashMessages.success(translate($languageStore, "bookmarks.googleSyncRedirectCopied"));
+    } catch {
+      flashMessages.alert(translate($languageStore, "bookmarks.googleSyncRedirectCopyFailed"));
+    }
   }
 
   function toggleSwitchLabel(value: boolean) {
@@ -662,6 +729,59 @@
       </div>
       </section>
 
+      <section class="settings-section settings-section--wide">
+      <div class="section-heading">
+        <h3 class="section-title">{translate($languageStore, "bookmarks.googleSyncTitle")}</h3>
+      </div>
+      <p class="section-description">{translate($languageStore, "bookmarks.googleSyncDescription")}</p>
+      <p class="settings-row__hint">{translate($languageStore, "bookmarks.googleSyncPrivacy")}</p>
+
+      <div class="side-selector settings-actions-row">
+        <button
+          type="button"
+          class="button-like is-gold"
+          disabled={isGoogleDriveSyncBusy}
+          onclick={uploadGoogleDriveBackup}
+        >
+          {translate(
+            $languageStore,
+            isGoogleDriveSyncBusy
+              ? "bookmarks.googleSyncWorking"
+              : "bookmarks.googleSyncUpload"
+          )}
+        </button>
+        <button
+          type="button"
+          class="button-like is-gold"
+          disabled={isGoogleDriveSyncBusy}
+          onclick={restoreGoogleDriveBackup}
+        >
+          {translate(
+            $languageStore,
+            isGoogleDriveSyncBusy
+              ? "bookmarks.googleSyncWorking"
+              : "bookmarks.googleSyncRestore"
+          )}
+        </button>
+      </div>
+
+      {#if !googleDriveSyncService.isConfigured()}
+        <p class="settings-row__hint settings-row__hint--warning">
+          {translate($languageStore, "bookmarks.googleSyncSetupHint")}
+        </p>
+      {/if}
+
+      <div class="section-actions">
+        <button
+          type="button"
+          class="mini-action"
+          onclick={copyGoogleDriveRedirectUrl}
+        >
+          {translate($languageStore, "bookmarks.googleSyncCopyRedirect")}
+        </button>
+      </div>
+      </section>
+
     {:else if activeTab === "results"}
       <section class="settings-section settings-section--wide">
       <div class="section-heading">
@@ -972,6 +1092,56 @@
       opacity: 0.65;
       cursor: wait;
     }
+  }
+
+  .button-like {
+    flex: 1;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    padding: 0 14px;
+    border: 1px solid rgba($white, 0.1);
+    border-radius: 2px;
+    background: rgba($white, 0.03);
+    color: rgba($white, 0.8);
+    font-family: $primary-font;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition:
+      border-color 0.16s ease,
+      background-color 0.16s ease,
+      color 0.16s ease;
+
+    &.is-gold {
+      border-color: rgba($gold, 0.4);
+      background: rgba($gold, 0.08);
+      color: $gold;
+    }
+
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
+      border-color: rgba($gold, 0.8);
+      background: rgba($gold, 0.15);
+      color: $white;
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.62;
+      cursor: wait;
+    }
+  }
+
+  .settings-row__hint--warning {
+    color: rgba($red, 0.78);
   }
 
   .side-selector {

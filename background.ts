@@ -1,3 +1,5 @@
+import { registerGoogleDriveSyncHandlers } from "./lib/services/google-drive-sync"
+
 let registered = false
 
 type PoeNinjaRequest = {
@@ -26,6 +28,7 @@ export const registerBackgroundHandlers = () => {
   }
 
   registered = true
+  registerGoogleDriveSyncHandlers()
 
   chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     if (!isBackgroundRequest(request)) {

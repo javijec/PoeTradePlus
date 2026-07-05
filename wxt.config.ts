@@ -30,8 +30,14 @@ export default defineConfig({
     name: "Poe Trade Plus",
     description:
       "Poe Trade Plus enhances the Path of Exile trade site with bookmarks, history and result tools.",
-    permissions: ["storage", "tabs"],
-    host_permissions: [...tradeHostPermissions, "https://poe.ninja/*"],
+    permissions: ["storage", "tabs", "identity"],
+    host_permissions: [
+      ...tradeHostPermissions,
+      "https://poe.ninja/*",
+      "https://accounts.google.com/*",
+      "https://oauth2.googleapis.com/*",
+      "https://www.googleapis.com/*"
+    ],
     icons: iconMap,
     action: {
       default_title: "Poe Trade Plus",

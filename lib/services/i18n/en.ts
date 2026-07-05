@@ -370,6 +370,33 @@ export const englishTranslations: Record<string, TranslationValue> = {
       "Save a portable file with folders, saved searches, settings, and extension preferences, or restore one you exported earlier.",
     "bookmarks.saveFile": "Save File",
     "bookmarks.restoreFile": "Restore From File",
+    "bookmarks.googleSyncTitle": "Google Drive Sync",
+    "bookmarks.googleSyncDescription":
+      "Use your Google account to move folders, saved searches, settings, and preferences between Chrome, Firefox, and Chromium browsers.",
+    "bookmarks.googleSyncPrivacy":
+      "Data is stored only in your private Google Drive app data folder. Poe Trade Plus does not use its own server.",
+    "bookmarks.googleSyncUpload": "Upload to Google",
+    "bookmarks.googleSyncRestore": "Restore from Google",
+    "bookmarks.googleSyncRestoreConfirm":
+      "Restore the Google Drive backup? This replaces the current Poe Trade Plus folders, saved searches, settings, and preferences on this browser.",
+    "bookmarks.googleSyncWorking": "Syncing...",
+    "bookmarks.googleSyncUploaded": "Backup uploaded to Google Drive.",
+    "bookmarks.googleSyncRestored": "Backup restored from Google Drive.",
+    "bookmarks.googleSyncNotConfigured":
+      "Google Drive sync needs VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID before this build can use it.",
+    "bookmarks.googleSyncAuthUnavailable":
+      "This browser does not expose the extension identity API right now.",
+    "bookmarks.googleSyncCancelled": "Google sign-in was cancelled.",
+    "bookmarks.googleSyncMissingBackup":
+      "No Poe Trade Plus backup was found in this Google account.",
+    "bookmarks.googleSyncFailed":
+      "Google Drive sync failed. Please try again.",
+    "bookmarks.googleSyncSetupHint":
+      "Experimental build note: set VITE_GOOGLE_DRIVE_SYNC_CLIENT_ID to enable Google Drive sync.",
+    "bookmarks.googleSyncCopyRedirect": "Copy OAuth Redirect URL",
+    "bookmarks.googleSyncRedirectCopied": "OAuth redirect URL copied.",
+    "bookmarks.googleSyncRedirectCopyFailed":
+      "Could not copy the OAuth redirect URL.",
     "bookmarks.folderCopyTitle": ({ title }) => `${title} (copy)`,
     "confirm.cancel": "Cancel",
     "confirm.delete": "Delete",
