@@ -8,6 +8,7 @@
   import { onDestroy, tick } from "svelte"
   import { slide } from "svelte/transition"
 
+
   import {
     getActiveTradeTabTitle,
     openUrlInActiveTab,
@@ -478,12 +479,36 @@
 
   let draggedIndex: number | null = $state(null)
   let dragOverIndex: number | null = $state(null)
+  let draggedCategoryIndex: number | null = $state(null)
+  let dragOverCategoryIndex: number | null = $state(null)
   let suppressNextTradeOpen = false
   let suppressNextFolderToggle = false
 
   const handleDragStart = (e: DragEvent, index: number) => {
+    e.stopPropagation()
     draggedIndex = index
     suppressNextTradeOpen = true
+    if (e.dataTransfer) {
+      e.dataTransfer.effectAllowed = "move"
+      const trade = displayedTrades[index]
+      if (trade?.id && folder.id) {
+        e.dataTransfer.setData(
+          "text/plain",
+          JSON.stringify({
+            type: "trade",
+            tradeId: trade.id,
+            sourceFolderId: folder.id
+          })
+        )
+      } else {
+        e.dataTransfer.setData("text/plain", index.toString())
+      }
+    }
+  }
+
+  const handleCategoryDragStart = (e: DragEvent, index: number) => {
+    e.stopPropagation()
+    draggedCategoryIndex = index
     if (e.dataTransfer) {
       e.dataTransfer.effectAllowed = "move"
       e.dataTransfer.setData("text/plain", index.toString())
@@ -494,6 +519,13 @@
     e.preventDefault()
     if (draggedIndex !== null && draggedIndex !== index) {
       dragOverIndex = index
+    }
+  }
+
+  const handleCategoryDragEnter = (e: DragEvent, index: number) => {
+    e.preventDefault()
+    if (draggedCategoryIndex !== null && draggedCategoryIndex !== index) {
+      dragOverCategoryIndex = index
     }
   }
 
@@ -513,14 +545,32 @@
             : categoryIdForTrade(moved)
         })
         trades = orderedTrades
-        // Background sync
-        trades = await bookmarksService.persistTrades(orderedTrades, folder.id)
-        await bookmarksService.refresh()
         hasLoadedTrades = true
+        // Persist in the background so rapid reorders stay responsive.
+        void bookmarksService.persistTrades(orderedTrades, folder.id)
       }
     }
     draggedIndex = null
     dragOverIndex = null
+  }
+
+  const handleCategoryDrop = async (e: DragEvent, index: number) => {
+    e.preventDefault()
+    if (draggedCategoryIndex !== null && draggedCategoryIndex !== index && folder.id) {
+      const categories = [...(folder.categories || [])]
+      if (index < 0 || index > categories.length) {
+        draggedCategoryIndex = null
+        dragOverCategoryIndex = null
+        return
+      }
+
+      const [moved] = categories.splice(draggedCategoryIndex, 1)
+      categories.splice(index, 0, moved)
+      folder.categories = categories
+      await bookmarksService.persistFolder({ ...folder, categories })
+    }
+    draggedCategoryIndex = null
+    dragOverCategoryIndex = null
   }
 
   const handleDragEnd = () => {
@@ -529,6 +579,11 @@
     window.setTimeout(() => {
       suppressNextTradeOpen = false
     }, 0)
+  }
+
+  const handleCategoryDragEnd = () => {
+    draggedCategoryIndex = null
+    dragOverCategoryIndex = null
   }
 
   const createTradeFromCurrent = async () => {
@@ -915,18 +970,18 @@
   class:is-editing={editingFolder}
   class:is-folder-dragging={isFolderDragging}
   class:is-folder-drag-over={isFolderDragOver}
-  draggable="true"
-  ondragstart={(e) => onFolderDragStart(e, folder.id || "")}
   ondragenter={(e) => onFolderDragEnter(e, folder.id || "")}
   ondragover={(event) => event.preventDefault()}
   ondrop={(event) => {
     event.preventDefault()
     onFolderDrop(event, folder.id || "")
-  }}
-  ondragend={onFolderDragEnd}>
+  }}>
   <div class="folder-header">
     <div
       class="folder-drag-handle"
+      draggable="true"
+      ondragstart={(e) => onFolderDragStart(e, folder.id || "")}
+      ondragend={onFolderDragEnd}
       title={translate($languageStore, "folder.dragReorder")}
       aria-hidden="true">
       <span class="action-icon"><SvgIcon svg={gripVerticalIcon} /></span>
@@ -1102,7 +1157,20 @@
         <ul class="trades-list">
           {#each tradeListEntries as entry (entry.id)}
             {#if entry.type === "category"}
-              <li class="category-row">
+              {@const categoryIndex = entry.category ? categoryOptions.findIndex((category) => category.id === entry.category.id) : -1}
+              <li
+                class="category-row"
+                class:is-drag-over={entry.category && dragOverCategoryIndex === categoryIndex}
+                class:is-dragging={entry.category && draggedCategoryIndex === categoryIndex}
+                draggable={!!entry.category}
+                ondragstart={entry.category ? (e) => handleCategoryDragStart(e, categoryIndex) : undefined}
+                ondragenter={entry.category ? (e) => handleCategoryDragEnter(e, categoryIndex) : undefined}
+                ondragover={(event) => event.preventDefault()}
+                ondrop={entry.category ? (event) => {
+                  event.preventDefault()
+                  void handleCategoryDrop(event, categoryIndex)
+                } : undefined}
+                ondragend={entry.category ? handleCategoryDragEnd : undefined}>
                 <div class="category-heading">
                   <button
                     type="button"
@@ -1626,6 +1694,15 @@
 
 .category-row {
   list-style: none;
+}
+
+.category-row.is-drag-over {
+  background: rgba(163, 141, 109, 0.08);
+  border-radius: 6px;
+}
+
+.category-row.is-dragging {
+  opacity: 0.7;
 }
 
 .category-heading {
