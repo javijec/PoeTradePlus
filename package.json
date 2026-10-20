@@ -54,7 +54,7 @@
     "esbuild": "^0.28.1",
     "prettier": "3.9.6",
     "typescript": "^7.0.2",
-    "vite": "^8.2.0",
+    "vite": "^8.2.4",
     "wxt": "^0.21.3"
   },
   "overrides": {
